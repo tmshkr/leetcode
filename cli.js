@@ -25,6 +25,7 @@ async function getProblem(argv) {
       question(titleSlug: $titleSlug) {
         questionId
         title
+        titleSlug
         content
         codeSnippets {
           lang
@@ -80,7 +81,9 @@ function createFiles(data, folder) {
 
   fs.appendFileSync(
     path.join(folder, "index.js"),
-    code + `\n\nmodule.exports = { ${functionName} };`
+    code +
+      `\n\nmodule.exports = { ${functionName} };` +
+      `\n\n/*\nhttps://leetcode.com/problems/${data.question.titleSlug}/\n*/\n`
   );
 
   fs.appendFileSync(
