@@ -51,9 +51,8 @@ async function getProblem(argv) {
 
 function createFolder(folder) {
   if (fs.existsSync(folder)) {
-    return console.error("That directory already exists!");
-    // fs.rmdirSync(folder, { recursive: true });
-    // fs.mkdirSync(folder);
+    fs.rmdirSync(folder, { recursive: true });
+    fs.mkdirSync(folder);
   } else {
     fs.mkdirSync(folder);
   }
