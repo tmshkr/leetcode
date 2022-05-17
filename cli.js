@@ -62,9 +62,10 @@ function createFolder(folder) {
 function createFiles(data, folder) {
   const metaData = JSON.parse(data.question.metaData);
   const functionName = metaData.name;
-  const { code } = data.question.codeSnippets.find(
-    (x) => x.langSlug === "javascript"
-  );
+  const codeSnippets = data.question.codeSnippets.reduce((acc, cur) => {
+    acc[cur.langSlug] = cur.code;
+    return acc;
+  }, {});
 
   const exampleTestcases = [];
   data.question.exampleTestcases.split("\n").reduce((acc, cur, i) => {
@@ -80,16 +81,45 @@ function createFiles(data, folder) {
     .match(/<strong>Output:<\/strong> .+/g)
     .map((x) => x.replace("<strong>Output:</strong> ", ""));
 
+  createJavaScriptFiles(
+    data,
+    folder,
+    functionName,
+    codeSnippets,
+    exampleTestcases,
+    exampleTestOutputs
+  );
+  createPythonFiles(
+    data,
+    folder,
+    functionName,
+    codeSnippets,
+    exampleTestcases,
+    exampleTestOutputs
+  );
+
+  console.log(`success!`);
+}
+
+function createJavaScriptFiles(
+  data,
+  folder,
+  functionName,
+  codeSnippets,
+  exampleTestcases,
+  exampleTestOutputs
+) {
+  console.log(`creating javascript files`);
   fs.appendFileSync(
-    path.join(folder, "index.js"),
-    code +
+    path.join(folder, "code.js"),
+    codeSnippets["javascript"] +
       `\n\nmodule.exports = { ${functionName} };` +
       `\n\n/*\nhttps://leetcode.com/problems/${data.question.titleSlug}/\n*/\n`
   );
 
   fs.appendFileSync(
     path.join(folder, "test.js"),
-    `const { ${functionName} } = require("./index.js");\n\n`
+    `const { ${functionName} } = require("./code.js");\n\n`
   );
 
   exampleTestcases.forEach((test, i) => {
@@ -98,6 +128,30 @@ function createFiles(data, folder) {
       `test("${test}", () => {\n  expect(${functionName}(${test})).toEqual(${exampleTestOutputs[i]});\n});\n\n`
     );
   });
+}
 
-  console.log(`success!`);
+function createPythonFiles(
+  data,
+  folder,
+  functionName,
+  codeSnippets,
+  exampleTestcases,
+  exampleTestOutputs
+) {
+  console.log(`creating python files`);
+  fs.appendFileSync(
+    path.join(folder, "code.py"),
+    codeSnippets["python"] +
+      `\n\n# https://leetcode.com/problems/${data.question.titleSlug}/\n`
+  );
+
+  const unitTests = exampleTestcases.reduce((acc, cur, i) => {
+    acc += `\tdef test_${i}(self):\n\t\tself.assertEqual(s.${functionName}(${cur}), ${exampleTestOutputs[i]})\n\n`;
+    return acc;
+  }, "");
+
+  fs.appendFileSync(
+    path.join(folder, "test.py"),
+    `import unittest\nfrom code import Solution\n\ns = Solution()\n\n\nclass TestSolution(unittest.TestCase):\n${unitTests}\nif __name__ == "__main__":\n\tunittest.main()`
+  );
 }
