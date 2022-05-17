@@ -52,11 +52,11 @@ async function getProblem(argv) {
 
 function createFolder(folder) {
   if (fs.existsSync(folder)) {
-    fs.rmdirSync(folder, { recursive: true });
-    fs.mkdirSync(folder);
-  } else {
-    fs.mkdirSync(folder);
+    fs.rmSync(folder, { recursive: true, force: true });
+    console.log(`deleted ${folder}`);
   }
+  fs.mkdirSync(folder);
+  console.log(`created ${folder}`);
 }
 
 function createFiles(data, folder) {
@@ -65,10 +65,11 @@ function createFiles(data, folder) {
   const { code } = data.question.codeSnippets.find(
     (x) => x.langSlug === "javascript"
   );
+
   const exampleTestcases = [];
   data.question.exampleTestcases.split("\n").reduce((acc, cur, i) => {
     acc.push(cur);
-    if (i % 2 === 1) {
+    if ((i + 1) % metaData.params.length === 0) {
       exampleTestcases.push(acc);
       acc = [];
     }
@@ -97,4 +98,6 @@ function createFiles(data, folder) {
       `test("${test}", () => {\n  expect(${functionName}(${test})).toEqual(${exampleTestOutputs[i]});\n});\n\n`
     );
   });
+
+  console.log(`success!`);
 }
