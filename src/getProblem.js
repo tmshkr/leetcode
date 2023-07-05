@@ -116,7 +116,7 @@ function createJavaScriptFiles(
   exampleTestcases.forEach((test, i) => {
     fs.appendFileSync(
       path.join(folder, "test.js"),
-      `test("${test}", () => {\n  expect(${functionName}(${test})).toEqual(${exampleTestOutputs[i]});\n});\n\n`
+      `test(\`${test}\`, () => {\n  expect(${functionName}(${test})).toEqual(${exampleTestOutputs[i]});\n});\n\n`
     );
   });
 }
