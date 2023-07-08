@@ -36,7 +36,7 @@ async function getProblem(argv) {
     variables: { titleSlug },
   });
 
-  const folder = path.join("problems", titleSlug);
+  const folder = path.join("solutions", titleSlug);
   createFolder(folder);
   createFiles(data, folder);
 }
