@@ -6,10 +6,9 @@
 var characterReplacement = function (s, k) {
   const counter = {};
   let l = 0;
-  let r = 0;
   let maxFreq = 0;
 
-  while (true) {
+  for (let r = 0; r < s.length; r++) {
     counter[s[r]] = counter[s[r]] + 1 || 1;
     maxFreq = Math.max(maxFreq, counter[s[r]]);
 
@@ -17,11 +16,9 @@ var characterReplacement = function (s, k) {
       counter[s[l]]--;
       l++;
     }
-
-    if (r < s.length - 1) {
-      r++;
-    } else return r - l + 1;
   }
+
+  return s.length - l;
 };
 
 module.exports = { characterReplacement };
