@@ -9,6 +9,7 @@ var checkInclusion = function (s1, s2) {
     a[c] = a[c] + 1 || 1;
     return a;
   }, {});
+  const uniqueChars = Object.keys(cntr).length;
 
   for (let i = 0; i < s2.length; i++) {
     const l = s2[i - s1.length];
@@ -26,7 +27,7 @@ var checkInclusion = function (s1, s2) {
       if (cntr[r] === 0) matches++;
     }
 
-    if (matches === Object.keys(cntr).length) {
+    if (matches === uniqueChars) {
       return true;
     }
   }
