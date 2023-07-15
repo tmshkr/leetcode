@@ -4,7 +4,6 @@
  * @return {boolean}
  */
 var checkInclusion = function (s1, s2) {
-  let w = s1.length;
   let matches = 0;
   const cntr = s1.split("").reduce((a, c) => {
     a[c] = a[c] + 1 || 1;
@@ -12,16 +11,19 @@ var checkInclusion = function (s1, s2) {
   }, {});
 
   for (let i = 0; i < s2.length; i++) {
-    if (s2[i] in cntr) {
-      if (cntr[s2[i]] === 0) matches--;
-      cntr[s2[i]]--;
-      if (cntr[s2[i]] === 0) matches++;
+    const l = s2[i - s1.length];
+    const r = s2[i];
+
+    if (l in cntr) {
+      if (cntr[l] === 0) matches--;
+      cntr[l]++;
+      if (cntr[l] === 0) matches++;
     }
 
-    if (i >= w && s2[i - w] in cntr) {
-      if (cntr[s2[i - w]] === 0) matches--;
-      cntr[s2[i - w]]++;
-      if (cntr[s2[i - w]] === 0) matches++;
+    if (r in cntr) {
+      if (cntr[r] === 0) matches--;
+      cntr[r]--;
+      if (cntr[r] === 0) matches++;
     }
 
     if (matches === Object.keys(cntr).length) {
