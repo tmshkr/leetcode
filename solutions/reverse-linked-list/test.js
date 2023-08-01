@@ -24,7 +24,6 @@ function checkValues(head, l) {
 test(`[1,2,3,4,5]`, () => {
   const l = [1, 2, 3, 4, 5];
   const head = reverseList[populateList(l)];
-  console.log("head", head);
   checkValues(head, l);
 });
 
