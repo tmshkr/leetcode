@@ -14,10 +14,11 @@ function populateList(l) {
 function checkValues(head, l) {
   const rev = l.reverse();
   let curr = head;
-  i = 0;
+  let i = 0;
   while (curr?.next) {
     expect(curr.val).toEqual(rev[i]);
     i++;
+    curr = curr.next;
   }
 }
 
