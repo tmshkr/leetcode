@@ -35,4 +35,32 @@ function createBinaryTree(levelOrderList) {
   return root;
 }
 
-module.exports = { createBinaryTree, TreeNode };
+function levelOrderTraversal(root) {
+  if (!root) {
+    return [];
+  }
+
+  const result = [];
+  const q = [root];
+
+  while (q.length) {
+    const node = q.shift();
+    result.push(node?.val || null);
+
+    if (node) {
+      q.push(node.left);
+      q.push(node.right);
+    }
+  }
+
+  for (let i = result.length - 1; i >= 0; i--) {
+    if (result[i]) {
+      break;
+    }
+    result.pop();
+  }
+
+  return result;
+}
+
+module.exports = { createBinaryTree, levelOrderTraversal, TreeNode };
