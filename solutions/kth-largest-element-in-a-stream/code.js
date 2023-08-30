@@ -1,4 +1,4 @@
-const { MinPriorityQueue } = require("@datastructures-js/priority-queue");
+const { MinPriorityQueue } = require("datastructures-js");
 
 /**
  * https://leetcode.com/problems/kth-largest-element-in-a-stream/
