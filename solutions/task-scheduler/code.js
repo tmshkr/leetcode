@@ -1,5 +1,3 @@
-const { MaxPriorityQueue } = require("datastructures-js");
-
 /**
  * @param {character[]} tasks
  * @param {number} n
