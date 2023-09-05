@@ -5,7 +5,7 @@ public class UnitTests
     public void TestMethod1()
     {
         // Arrange
-        MySolution s = new MySolution();
+        Solution s = new Solution();
 
         // Act
         int[] res = s.TwoSum(new int[] { 2, 7, 11, 15 }, 9);
@@ -18,7 +18,7 @@ public class UnitTests
     public void TestMethod2()
     {
         // Arrange
-        MySolution s = new MySolution();
+        Solution s = new Solution();
 
         // Act
         int[] res = s.TwoSum(new int[] { 3, 2, 4 }, 6);
@@ -31,7 +31,7 @@ public class UnitTests
     public void TestMethod3()
     {
         // Arrange
-        MySolution s = new MySolution();
+        Solution s = new Solution();
 
         // Act
         int[] res = s.TwoSum(new int[] { 3, 3 }, 6);
@@ -50,7 +50,7 @@ public class UnitTests
     }
 }
 
-public class MySolution
+public class Solution
 {
     public int[] TwoSum(int[] nums, int target)
     {
