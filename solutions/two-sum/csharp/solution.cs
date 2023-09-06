@@ -52,7 +52,7 @@ public class UnitTests
 
 public class Solution
 {
-    public int[] TwoSum(int[] nums, int target)
+    public int[]? TwoSum(int[] nums, int target)
     {
         Dictionary<int, int> indices = new Dictionary<int, int>();
 
