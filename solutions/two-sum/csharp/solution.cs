@@ -8,7 +8,7 @@ public class UnitTests
         Solution s = new Solution();
 
         // Act
-        int[] res = s.TwoSum(new int[] { 2, 7, 11, 15 }, 9);
+        int[]? res = s.TwoSum(new int[] { 2, 7, 11, 15 }, 9);
 
         // Assert
         compare(new int[] { 0, 1 }, res);
@@ -21,7 +21,7 @@ public class UnitTests
         Solution s = new Solution();
 
         // Act
-        int[] res = s.TwoSum(new int[] { 3, 2, 4 }, 6);
+        int[]? res = s.TwoSum(new int[] { 3, 2, 4 }, 6);
 
         // Assert
         compare(new int[] { 1, 2 }, res);
@@ -34,18 +34,18 @@ public class UnitTests
         Solution s = new Solution();
 
         // Act
-        int[] res = s.TwoSum(new int[] { 3, 3 }, 6);
+        int[]? res = s.TwoSum(new int[] { 3, 3 }, 6);
 
         // Assert
         compare(new int[] { 0, 1 }, res);
     }
 
-    public void compare(int[] a, int[] b)
+    public void compare(int[] a, int[]? b)
     {
-        Assert.AreEqual(a.Length, b.Length);
+        Assert.AreEqual(a.Length, b?.Length);
         for (int i = 0; i < a.Length; i++)
         {
-            Assert.AreEqual(a[i], b[i]);
+            Assert.AreEqual(a[i], b?[i]);
         }
     }
 }
