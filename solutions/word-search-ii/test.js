@@ -1,4 +1,4 @@
-const { findWords } = require("./code.js");
+const { findWords } = require("./solution.js");
 
 function compare(res, spec) {
   expect(res.length).toEqual(spec.length);

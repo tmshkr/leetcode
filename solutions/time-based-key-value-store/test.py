@@ -1,5 +1,5 @@
 import unittest
-from code import TimeMap
+from solution import TimeMap
 
 class TestSolution(unittest.TestCase):
 	def test_0(self):

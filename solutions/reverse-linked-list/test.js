@@ -1,4 +1,4 @@
-const { reverseList, ListNode } = require("./code.js");
+const { reverseList, ListNode } = require("./solution.js");
 
 function populateList(l) {
   const head = new ListNode(l[0]);

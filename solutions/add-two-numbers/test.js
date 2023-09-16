@@ -1,4 +1,4 @@
-const { addTwoNumbers, ListNode } = require("./code.js");
+const { addTwoNumbers, ListNode } = require("./solution.js");
 
 function createList(l) {
   const head = new ListNode(l[0]);

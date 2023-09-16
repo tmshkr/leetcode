@@ -1,4 +1,4 @@
-const { lastStoneWeight } = require("./code.js");
+const { lastStoneWeight } = require("./solution.js");
 
 test(`[2,7,4,1,8,1]`, () => {
   expect(lastStoneWeight([2,7,4,1,8,1])).toEqual(1);

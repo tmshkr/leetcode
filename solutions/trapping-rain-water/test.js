@@ -1,4 +1,4 @@
-const { trap } = require("./code.js");
+const { trap } = require("./solution.js");
 
 test(`[0,1,0,2,1,0,1,3,2,1,2,1]`, () => {
   expect(trap([0,1,0,2,1,0,1,3,2,1,2,1])).toEqual(6);

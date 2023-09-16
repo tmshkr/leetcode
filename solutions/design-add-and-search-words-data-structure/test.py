@@ -1,5 +1,5 @@
 import unittest
-from code import WordDictionary
+from solution import WordDictionary
 
 
 class TestSolution(unittest.TestCase):

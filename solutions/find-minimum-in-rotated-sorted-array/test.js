@@ -1,4 +1,4 @@
-const { findMin } = require("./code.js");
+const { findMin } = require("./solution.js");
 
 test(`[3,4,5,1,2]`, () => {
   expect(findMin([3, 4, 5, 1, 2])).toEqual(1);

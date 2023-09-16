@@ -1,4 +1,4 @@
-const { carFleet } = require("./code.js");
+const { carFleet } = require("./solution.js");
 
 test(`12,[10,8,0,5,3],[2,4,1,1,3]`, () => {
   expect(carFleet(12,[10,8,0,5,3],[2,4,1,1,3])).toEqual(3);

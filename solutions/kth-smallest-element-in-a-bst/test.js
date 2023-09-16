@@ -1,4 +1,4 @@
-const { kthSmallest, TreeNode } = require("./code.js");
+const { kthSmallest, TreeNode } = require("./solution.js");
 
 function createBinaryTree(levelOrderList) {
   if (!levelOrderList) {

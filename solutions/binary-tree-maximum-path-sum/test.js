@@ -1,4 +1,4 @@
-const { maxPathSum } = require("./code.js");
+const { maxPathSum } = require("./solution.js");
 const { createBinaryTree } = require("../../src/utils/binary-tree.js");
 
 test(`[1,2,3]`, () => {

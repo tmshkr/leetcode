@@ -1,4 +1,4 @@
-const { combinationSum2 } = require("./code");
+const { combinationSum2 } = require("./solution");
 
 function compare(a, b) {
   expect(a.length).toBe(b.length);

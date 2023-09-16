@@ -1,4 +1,4 @@
-const { rightSideView, TreeNode } = require("./code.js");
+const { rightSideView, TreeNode } = require("./solution.js");
 
 function createBinaryTree(levelOrderList) {
   if (!levelOrderList.length) {

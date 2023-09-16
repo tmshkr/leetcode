@@ -1,4 +1,4 @@
-const { threeSum } = require("./code.js");
+const { threeSum } = require("./solution.js");
 
 test(`[-1,0,1,2,-1,-4]`, () => {
   expect(threeSum([-1, 0, 1, 2, -1, -4])).toEqual([

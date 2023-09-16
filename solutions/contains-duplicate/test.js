@@ -1,4 +1,4 @@
-const { containsDuplicate } = require("./code.js");
+const { containsDuplicate } = require("./solution.js");
 
 test("[1,2,3,1]", () => {
   expect(containsDuplicate([1,2,3,1])).toEqual(true);

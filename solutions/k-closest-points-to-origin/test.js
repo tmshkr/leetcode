@@ -1,4 +1,4 @@
-const { kClosest } = require("./code.js");
+const { kClosest } = require("./solution.js");
 
 test(`[[1,3],[-2,2]],1`, () => {
   expect(

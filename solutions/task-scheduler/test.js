@@ -1,4 +1,4 @@
-const { leastInterval } = require("./code.js");
+const { leastInterval } = require("./solution.js");
 
 test(`["A","A","A","B","B","B"],2`, () => {
   expect(leastInterval(["A","A","A","B","B","B"],2)).toEqual(8);

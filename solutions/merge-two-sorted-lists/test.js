@@ -1,4 +1,4 @@
-const { mergeTwoLists, ListNode } = require("./code.js");
+const { mergeTwoLists, ListNode } = require("./solution.js");
 
 function populateList(l) {
   const head = new ListNode(l[0]);

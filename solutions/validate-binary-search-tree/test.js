@@ -1,4 +1,4 @@
-const { isValidBST, TreeNode } = require("./code.js");
+const { isValidBST, TreeNode } = require("./solution.js");
 
 function createBinaryTree(levelOrderList) {
   if (!levelOrderList) {

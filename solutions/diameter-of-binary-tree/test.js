@@ -1,4 +1,4 @@
-const { diameterOfBinaryTree, TreeNode } = require("./code.js");
+const { diameterOfBinaryTree, TreeNode } = require("./solution.js");
 
 function createBinaryTree(levelOrderList) {
   if (!levelOrderList) {

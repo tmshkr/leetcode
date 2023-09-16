@@ -1,4 +1,4 @@
-const { Twitter } = require("./code.js");
+const { Twitter } = require("./solution.js");
 
 test(`Twitter class`, () => {
   const twitter = new Twitter();

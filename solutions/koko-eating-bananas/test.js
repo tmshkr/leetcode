@@ -1,4 +1,4 @@
-const { minEatingSpeed } = require("./code.js");
+const { minEatingSpeed } = require("./solution.js");
 
 test(`[3,6,7,11],8`, () => {
   expect(minEatingSpeed([3,6,7,11],8)).toEqual(4);

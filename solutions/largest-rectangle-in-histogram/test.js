@@ -1,4 +1,4 @@
-const { largestRectangleArea } = require("./code.js");
+const { largestRectangleArea } = require("./solution.js");
 
 test(`[2,1,5,6,2,3]`, () => {
   expect(largestRectangleArea([2,1,5,6,2,3])).toEqual(10);

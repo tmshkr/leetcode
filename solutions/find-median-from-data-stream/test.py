@@ -1,5 +1,5 @@
 import unittest
-from code import MedianFinder
+from solution import MedianFinder
 
 
 class TestSolution(unittest.TestCase):

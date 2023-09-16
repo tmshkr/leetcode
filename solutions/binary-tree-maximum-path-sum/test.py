@@ -1,5 +1,5 @@
 import unittest
-from code import Solution, TreeNode
+from solution import Solution, TreeNode
 
 
 s = Solution()

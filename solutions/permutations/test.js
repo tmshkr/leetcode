@@ -1,4 +1,4 @@
-const { permute } = require("./code.js");
+const { permute } = require("./solution.js");
 
 function compare(a, b) {
   expect(a.length).toEqual(b.length);

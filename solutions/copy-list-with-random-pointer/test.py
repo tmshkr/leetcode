@@ -1,5 +1,5 @@
 import unittest
-from code import Solution, Node
+from solution import Solution, Node
 
 s = Solution()
 def createList(l):

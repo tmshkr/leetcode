@@ -1,4 +1,4 @@
-const { reverseKGroup, ListNode } = require("./code.js");
+const { reverseKGroup, ListNode } = require("./solution.js");
 
 function createList(l) {
   const head = new ListNode(l[0]);

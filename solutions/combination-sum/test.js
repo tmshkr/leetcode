@@ -1,4 +1,4 @@
-const { combinationSum } = require("./code.js");
+const { combinationSum } = require("./solution.js");
 
 test(`[2,3,6,7],7`, () => {
   expect(combinationSum([2,3,6,7],7)).toEqual([[2,2,3],[7]]);

@@ -1,5 +1,5 @@
 import unittest
-from code import Solution
+from solution import Solution
 
 s = Solution()
 

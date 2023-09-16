@@ -1,4 +1,4 @@
-const { evalRPN } = require("./code.js");
+const { evalRPN } = require("./solution.js");
 
 test(`["2","1","+","3","*"]`, () => {
   expect(evalRPN(["2","1","+","3","*"])).toEqual(9);

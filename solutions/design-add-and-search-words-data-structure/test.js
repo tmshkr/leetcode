@@ -1,4 +1,4 @@
-const { WordDictionary } = require("./code.js");
+const { WordDictionary } = require("./solution.js");
 
 test(`case 1`, () => {
   const wordDictionary = new WordDictionary();

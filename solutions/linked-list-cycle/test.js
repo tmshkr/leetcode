@@ -1,4 +1,4 @@
-const { hasCycle, ListNode } = require("./code.js");
+const { hasCycle, ListNode } = require("./solution.js");
 
 function createList(l, pos) {
   const head = new ListNode(l[0]);

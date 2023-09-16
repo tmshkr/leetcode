@@ -1,4 +1,4 @@
-const { MedianFinder } = require("./code.js");
+const { MedianFinder } = require("./solution.js");
 
 test("MedianFinder", () => {
   const finder = new MedianFinder();

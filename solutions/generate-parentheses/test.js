@@ -1,4 +1,4 @@
-const { generateParenthesis } = require("./code.js");
+const { generateParenthesis } = require("./solution.js");
 
 test(`3`, () => {
   expect(generateParenthesis(3)).toEqual(["((()))","(()())","(())()","()(())","()()()"]);

@@ -1,4 +1,4 @@
-const { maxDepth, TreeNode } = require("./code.js");
+const { maxDepth, TreeNode } = require("./solution.js");
 
 function createBinaryTree(levelOrderList) {
   if (!levelOrderList) {

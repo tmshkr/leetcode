@@ -1,4 +1,4 @@
-const { exist } = require("./code.js");
+const { exist } = require("./solution.js");
 
 test(`[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]],"ABCCED"`, () => {
   expect(

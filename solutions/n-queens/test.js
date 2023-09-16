@@ -1,4 +1,4 @@
-const { solveNQueens } = require("./code.js");
+const { solveNQueens } = require("./solution.js");
 
 test(`4`, () => {
   expect(solveNQueens(4)).toEqual([

@@ -1,4 +1,4 @@
-const { subsets } = require("./code.js");
+const { subsets } = require("./solution.js");
 
 function compare(a, b) {
   expect(a.length).toEqual(b.length);

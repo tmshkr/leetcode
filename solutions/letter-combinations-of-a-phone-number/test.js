@@ -1,4 +1,4 @@
-const { letterCombinations } = require("./code.js");
+const { letterCombinations } = require("./solution.js");
 
 test(`"23"`, () => {
   expect(letterCombinations("23")).toEqual([

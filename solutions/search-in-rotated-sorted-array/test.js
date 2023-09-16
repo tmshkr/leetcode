@@ -1,4 +1,4 @@
-const { search } = require("./code.js");
+const { search } = require("./solution.js");
 
 test(`[4,5,6,7,0,1,2],0`, () => {
   expect(search([4,5,6,7,0,1,2],0)).toEqual(4);

@@ -1,4 +1,4 @@
-const { topKFrequent } = require("./code.js");
+const { topKFrequent } = require("./solution.js");
 
 test(`[1,1,1,2,2,3],2`, () => {
   expect(topKFrequent([1,1,1,2,2,3],2)).toEqual([1,2]);

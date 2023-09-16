@@ -1,4 +1,4 @@
-const { checkInclusion } = require("./code.js");
+const { checkInclusion } = require("./solution.js");
 
 test(`"ab","eidbaooo"`, () => {
   expect(checkInclusion("ab","eidbaooo")).toEqual(true);

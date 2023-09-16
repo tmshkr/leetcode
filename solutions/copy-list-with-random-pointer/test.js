@@ -1,4 +1,4 @@
-const { copyRandomList, Node } = require("./code.js");
+const { copyRandomList, Node } = require("./solution.js");
 
 function createList(l) {
   const head = new Node(l[0][0]);

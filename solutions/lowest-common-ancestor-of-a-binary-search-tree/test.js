@@ -1,4 +1,4 @@
-const { lowestCommonAncestor, TreeNode } = require("./code.js");
+const { lowestCommonAncestor, TreeNode } = require("./solution.js");
 
 function createBinaryTree(levelOrderList) {
   if (!levelOrderList) {

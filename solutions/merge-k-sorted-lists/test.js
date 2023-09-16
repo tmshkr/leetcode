@@ -1,4 +1,4 @@
-const { mergeKLists, ListNode } = require("./code.js");
+const { mergeKLists, ListNode } = require("./solution.js");
 
 function createList(l) {
   if (l.length === 0) {

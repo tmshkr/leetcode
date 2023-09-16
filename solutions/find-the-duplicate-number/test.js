@@ -1,4 +1,4 @@
-const { findDuplicate } = require("./code.js");
+const { findDuplicate } = require("./solution.js");
 
 test(`[1,3,4,2,2]`, () => {
   expect(findDuplicate([1,3,4,2,2])).toEqual(2);

@@ -1,5 +1,5 @@
 import unittest
-from code import KthLargest
+from solution import KthLargest
 
 
 class TestSolution(unittest.TestCase):

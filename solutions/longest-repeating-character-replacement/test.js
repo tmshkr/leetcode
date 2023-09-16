@@ -1,4 +1,4 @@
-const { characterReplacement } = require("./code.js");
+const { characterReplacement } = require("./solution.js");
 
 test(`"ABAB",2`, () => {
   expect(characterReplacement("ABAB",2)).toEqual(4);

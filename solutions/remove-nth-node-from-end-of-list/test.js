@@ -1,4 +1,4 @@
-const { removeNthFromEnd, ListNode } = require("./code.js");
+const { removeNthFromEnd, ListNode } = require("./solution.js");
 
 function createList(l) {
   const head = new ListNode(l[0]);

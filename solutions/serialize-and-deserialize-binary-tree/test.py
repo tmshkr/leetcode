@@ -1,5 +1,5 @@
 import unittest
-from code import Codec, TreeNode
+from solution import Codec, TreeNode
 
 
 def create_binary_tree(level_order_list):

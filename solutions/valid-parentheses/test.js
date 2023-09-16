@@ -1,4 +1,4 @@
-const { isValid } = require("./code.js");
+const { isValid } = require("./solution.js");
 
 test(`"()"`, () => {
   expect(isValid("()")).toEqual(true);

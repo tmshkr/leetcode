@@ -1,5 +1,5 @@
 import unittest
-from code import Twitter
+from solution import Twitter
 
 
 class TestSolution(unittest.TestCase):

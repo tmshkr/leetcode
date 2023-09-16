@@ -1,5 +1,5 @@
 import unittest
-from code import Solution, ListNode
+from solution import Solution, ListNode
 
 s = Solution()
 def populateList(l):

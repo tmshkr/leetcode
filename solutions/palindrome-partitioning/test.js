@@ -1,4 +1,4 @@
-const { partition } = require("./code.js");
+const { partition } = require("./solution.js");
 
 function compare(a, b) {
   expect(a.length).toEqual(b.length);

@@ -1,4 +1,4 @@
-const { isSameTree, TreeNode } = require("./code.js");
+const { isSameTree, TreeNode } = require("./solution.js");
 
 function createBinaryTree(levelOrderList) {
   if (!levelOrderList) {

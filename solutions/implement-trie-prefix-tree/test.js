@@ -1,4 +1,4 @@
-const { Trie } = require("./code");
+const { Trie } = require("./solution");
 
 test(`Trie class`, () => {
   const trie = new Trie();

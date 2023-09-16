@@ -1,5 +1,5 @@
 import unittest
-from code import LRUCache
+from solution import LRUCache
 
 class TestSolution(unittest.TestCase):
 	def test_0(self):

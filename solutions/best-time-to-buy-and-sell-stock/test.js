@@ -1,4 +1,4 @@
-const { maxProfit } = require("./code.js");
+const { maxProfit } = require("./solution.js");
 
 test(`[7,1,5,3,6,4]`, () => {
   expect(maxProfit([7,1,5,3,6,4])).toEqual(5);

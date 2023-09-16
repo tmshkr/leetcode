@@ -1,4 +1,4 @@
-const { minWindow } = require("./code.js");
+const { minWindow } = require("./solution.js");
 
 test(`"ADOBECODEBANC","ABC"`, () => {
   expect(minWindow("ADOBECODEBANC", "ABC")).toEqual("BANC");

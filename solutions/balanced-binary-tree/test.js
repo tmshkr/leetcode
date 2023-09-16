@@ -1,4 +1,4 @@
-const { isBalanced, TreeNode } = require("./code.js");
+const { isBalanced, TreeNode } = require("./solution.js");
 
 function createBinaryTree(levelOrderList) {
   if (!levelOrderList) {

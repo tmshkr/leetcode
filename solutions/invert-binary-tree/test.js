@@ -1,4 +1,4 @@
-const { invertTree, TreeNode } = require("./code.js");
+const { invertTree, TreeNode } = require("./solution.js");
 
 function insertNode(root, val) {
   if (root.val) {

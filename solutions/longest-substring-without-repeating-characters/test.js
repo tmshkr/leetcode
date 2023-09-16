@@ -1,4 +1,4 @@
-const { lengthOfLongestSubstring } = require("./code.js");
+const { lengthOfLongestSubstring } = require("./solution.js");
 
 test(`"abcabcbb"`, () => {
   expect(lengthOfLongestSubstring("abcabcbb")).toEqual(3);

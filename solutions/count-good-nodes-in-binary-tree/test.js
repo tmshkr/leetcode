@@ -1,4 +1,4 @@
-const { goodNodes, TreeNode } = require("./code.js");
+const { goodNodes, TreeNode } = require("./solution.js");
 
 function createBinaryTree(levelOrderList) {
   if (!levelOrderList) {

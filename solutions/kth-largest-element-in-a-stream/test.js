@@ -1,4 +1,4 @@
-const { KthLargest } = require("./code.js");
+const { KthLargest } = require("./solution.js");
 
 test("KthLargest", () => {
   const kthLargest = new KthLargest(3, [4, 5, 8, 2]);

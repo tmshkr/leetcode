@@ -1,4 +1,4 @@
-const { TimeMap } = require("./code.js");
+const { TimeMap } = require("./solution.js");
 
 test(`TimeMap`, () => {
   const timeMap = new TimeMap();

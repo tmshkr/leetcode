@@ -1,4 +1,4 @@
-const { subsetsWithDup } = require("./code.js");
+const { subsetsWithDup } = require("./solution.js");
 
 function compare(a, b) {
   expect(a.length).toBe(b.length);

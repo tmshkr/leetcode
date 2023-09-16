@@ -1,5 +1,5 @@
 import unittest
-from code import Trie
+from solution import Trie
 
 
 class TestSolution(unittest.TestCase):

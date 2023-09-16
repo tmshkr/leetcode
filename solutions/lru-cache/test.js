@@ -1,4 +1,4 @@
-const { LRUCache } = require("./code.js");
+const { LRUCache } = require("./solution.js");
 
 test(`LRUCache`, () => {
   const lRUCache = new LRUCache(2);

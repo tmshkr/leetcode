@@ -1,4 +1,4 @@
-const { MinStack } = require("./code.js");
+const { MinStack } = require("./solution.js");
 
 test(`MinStack`, () => {
   const minStack = new MinStack();

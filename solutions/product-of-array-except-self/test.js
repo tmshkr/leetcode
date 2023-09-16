@@ -1,4 +1,4 @@
-const { productExceptSelf } = require("./code.js");
+const { productExceptSelf } = require("./solution.js");
 
 test(`[1,2,3,4]`, () => {
   expect(productExceptSelf([1, 2, 3, 4])).toEqual([24, 12, 8, 6]);
