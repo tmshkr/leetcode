@@ -56,18 +56,25 @@ public class UnitTest1
         return graph.Count > 0 ? graph[0] : null;
     }
 
-    private void compare(Node? a, Node? b)
+    private void compare(Node? a, Node? b, Dictionary<Node, Node>? compared = null)
     {
+        if (compared == null) compared = new Dictionary<Node, Node>();
         if (a == null && b == null) return;
-        if (a.visited && b.visited) return;
-        a.visited = true;
-        b.visited = true;
+        if (
+            compared.ContainsKey(a) &&
+            compared.ContainsKey(b) &&
+            compared[a] == b && compared[b] == a
+            ) return;
 
         Assert.AreEqual(a.val, b.val);
         Assert.AreEqual(a.neighbors.Count, b.neighbors.Count);
+
+        compared.Add(a, b);
+        compared.Add(b, a);
+
         for (var i = 0; i < a.neighbors.Count; i++)
         {
-            compare(a.neighbors[i], b.neighbors[i]);
+            compare(a.neighbors[i], b.neighbors[i], compared);
         }
     }
 }

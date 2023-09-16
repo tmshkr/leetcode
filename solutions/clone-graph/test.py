@@ -14,16 +14,18 @@ def createGraph(adjList):
     return graph[0] if len(graph) > 0 else None
 
 
-def compare(self, a, b):
+def compare(self, a, b, compared={}):
     if a is None and b is None:
         return
-    if a.visited and b.visited:
+    if compared.get(a) == b and compared.get(b) == a:
         return
-    a.visited = True
-    b.visited = True
 
     self.assertEqual(a.val, b.val)
     self.assertEqual(len(a.neighbors), len(b.neighbors))
+
+    compared[a] = b
+    compared[b] = a
+
     for i in range(len(a.neighbors)):
         compare(self, a.neighbors[i], b.neighbors[i])
 

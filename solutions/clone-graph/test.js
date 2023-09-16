@@ -15,16 +15,18 @@ function createGraph(adjList) {
   return graph[0];
 }
 
-function compare(a, b) {
+function compare(a, b, compared = new Map()) {
   if (!a && !b) return;
-  if (a.visited && b.visited) return;
-  a.visited = true;
-  b.visited = true;
+  if (compared.get(a) === b && compared.get(b) === a) return;
 
   expect(a.val).toEqual(b.val);
   expect(a.neighbors.length).toEqual(b.neighbors.length);
+
+  compared.set(a, b);
+  compared.set(b, a);
+
   for (let i = 0; i < a.neighbors.length; i++) {
-    compare(a.neighbors[i], b.neighbors[i]);
+    compare(a.neighbors[i], b.neighbors[i], compared);
   }
 }
 

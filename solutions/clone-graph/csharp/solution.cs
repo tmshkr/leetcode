@@ -4,7 +4,6 @@ public class Node
 {
   public int val;
   public IList<Node> neighbors;
-  public bool visited = false;
 
   public Node()
   {
