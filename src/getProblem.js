@@ -102,7 +102,7 @@ function createJavaScriptFiles(
 ) {
   console.log(`creating javascript files`);
   fs.appendFileSync(
-    path.join(folder, "code.js"),
+    path.join(folder, "solution.js"),
     codeSnippets["javascript"] +
       `\n\nmodule.exports = { ${functionName} };` +
       `\n\n/*\nhttps://leetcode.com/problems/${data.question.titleSlug}/\n*/\n`
@@ -110,7 +110,7 @@ function createJavaScriptFiles(
 
   fs.appendFileSync(
     path.join(folder, "test.js"),
-    `const { ${functionName} } = require("./code.js");\n\n`
+    `const { ${functionName} } = require("./solution.js");\n\n`
   );
 
   exampleTestcases.forEach((test, i) => {
@@ -131,7 +131,7 @@ function createPythonFiles(
 ) {
   console.log(`creating python files`);
   fs.appendFileSync(
-    path.join(folder, "code.py"),
+    path.join(folder, "solution.py"),
     codeSnippets["python"] +
       `\n\n# https://leetcode.com/problems/${data.question.titleSlug}/\n`
   );
@@ -143,7 +143,7 @@ function createPythonFiles(
 
   fs.appendFileSync(
     path.join(folder, "test.py"),
-    `import unittest\nfrom code import Solution\n\ns = Solution()\n\n\nclass TestSolution(unittest.TestCase):\n${unitTests}\nif __name__ == "__main__":\n\tunittest.main()`
+    `import unittest\nfrom solution import Solution\n\ns = Solution()\n\n\nclass TestSolution(unittest.TestCase):\n${unitTests}\nif __name__ == "__main__":\n\tunittest.main()`
   );
 }
 
