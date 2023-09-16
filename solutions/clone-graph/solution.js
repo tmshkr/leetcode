@@ -12,19 +12,15 @@ var cloneGraph = function (node) {
 
   const clone = (node) => {
     if (!node) return null;
-
-    if (graph.has(node.val)) {
-      return graph.get(node.val);
+    if (!graph.has(node)) {
+      const copy = new Node(node.val);
+      graph.set(node, copy);
+      for (const neighbor of node.neighbors) {
+        copy.neighbors.push(clone(neighbor));
+      }
     }
 
-    const newNode = new Node(node.val);
-    graph.set(node.val, newNode);
-
-    for (const neighbor of node.neighbors) {
-      newNode.neighbors.push(clone(neighbor));
-    }
-
-    return newNode;
+    return graph.get(node);
   };
 
   return clone(node);
