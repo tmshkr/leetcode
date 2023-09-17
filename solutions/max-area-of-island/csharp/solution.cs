@@ -27,10 +27,11 @@ public class Solution
         return 0;
 
       visits[row, col] = true;
-      return (1 + dfs(row, col + 1) +
-       dfs(row, col - 1) +
-       dfs(row + 1, col) +
-       dfs(row - 1, col));
+      return (1 +
+        dfs(row, col + 1) +
+        dfs(row, col - 1) +
+        dfs(row + 1, col) +
+        dfs(row - 1, col));
     }
 
     return area;

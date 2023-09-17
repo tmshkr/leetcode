@@ -3,31 +3,28 @@
  * @return {number}
  */
 var maxAreaOfIsland = function (grid) {
+  const visited = Array.from(grid, ({ length }) => Array(length).fill(false));
   let max = 0;
 
   for (let i = 0; i < grid.length; i++) {
     for (let j = 0; j < grid[i].length; j++) {
-      dfs(i, j);
+      max = Math.max(max, dfs(i, j));
     }
   }
 
-  function dfs(i, j, counter = { count: 0 }) {
+  function dfs(i, j) {
     if (
       i < 0 ||
       j < 0 ||
       i === grid.length ||
       j === grid[i].length ||
+      visited[i][j] ||
       grid[i][j] === 0
     )
-      return;
+      return 0;
 
-    counter.count++;
-    max = Math.max(max, counter.count);
-    grid[i][j] = 0;
-    dfs(i + 1, j, counter);
-    dfs(i - 1, j, counter);
-    dfs(i, j + 1, counter);
-    dfs(i, j - 1, counter);
+    visited[i][j] = true;
+    return 1 + dfs(i + 1, j) + dfs(i - 1, j) + dfs(i, j + 1) + dfs(i, j - 1);
   }
 
   return max;
