@@ -6,20 +6,17 @@ class Node(object):
 
 
 class Solution:
-    def cloneGraph(self, node: Node) -> Node:
-        graph = {}
+    def cloneGraph(self, node: Node, map={}) -> Node:
+        if node is None:
+            return None
 
-        def clone(node):
-            if node in graph:
-                return graph[node]
-
+        if node not in map:
             copy = Node(node.val)
-            graph[node] = copy
+            map[node] = copy
             for neighbor in node.neighbors:
-                copy.neighbors.append(clone(neighbor))
-            return copy
+                copy.neighbors.append(self.cloneGraph(neighbor, map))
 
-        return clone(node) if node else None
+        return map[node]
 
 
 # https://leetcode.com/problems/clone-graph/
