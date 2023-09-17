@@ -7,23 +7,17 @@ function Node(val, neighbors) {
  * @param {Node} node
  * @return {Node}
  */
-var cloneGraph = function (node) {
-  const graph = new Map();
-
-  const clone = (node) => {
-    if (!node) return null;
-    if (!graph.has(node)) {
-      const copy = new Node(node.val);
-      graph.set(node, copy);
-      for (const neighbor of node.neighbors) {
-        copy.neighbors.push(clone(neighbor));
-      }
+var cloneGraph = function (node, map = new Map()) {
+  if (!node) return null;
+  if (!map.has(node)) {
+    const copy = new Node(node.val);
+    map.set(node, copy);
+    for (const neighbor of node.neighbors) {
+      copy.neighbors.push(cloneGraph(neighbor, map));
     }
+  }
 
-    return graph.get(node);
-  };
-
-  return clone(node);
+  return map.get(node);
 };
 
 module.exports = { cloneGraph, Node };
