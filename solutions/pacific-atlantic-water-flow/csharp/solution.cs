@@ -8,7 +8,7 @@ public class Solution
     bool[,] pac = new bool[ROWS, COLS];
     bool[,] atl = new bool[ROWS, COLS];
 
-    void dfs(int row, int col, bool[,] visits, int prev)
+    void dfs(int row, int col, bool[,] visits, int prev = 0)
     {
       if (
         row < 0 ||
@@ -30,14 +30,14 @@ public class Solution
 
     for (int r = 0; r < ROWS; r++)
     {
-      dfs(r, 0, pac, heights[r][0]);
-      dfs(r, COLS - 1, atl, heights[r][COLS - 1]);
+      dfs(r, 0, pac);
+      dfs(r, COLS - 1, atl);
     }
 
     for (int c = 0; c < COLS; c++)
     {
-      dfs(0, c, pac, heights[0][c]);
-      dfs(ROWS - 1, c, atl, heights[ROWS - 1][c]);
+      dfs(0, c, pac);
+      dfs(ROWS - 1, c, atl);
     }
 
     for (int r = 0; r < ROWS; r++)

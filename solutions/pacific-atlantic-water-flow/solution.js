@@ -8,7 +8,7 @@ var pacificAtlantic = function (heights) {
   const pac = new Set();
   const atl = new Set();
 
-  function dfs(r, c, visited, prevHeight) {
+  function dfs(r, c, visited, prevHeight = 0) {
     if (
       visited.has(`${r},${c}`) ||
       r < 0 ||
@@ -27,12 +27,12 @@ var pacificAtlantic = function (heights) {
   }
 
   for (let c = 0; c < COLS; c++) {
-    dfs(0, c, pac, heights[0][c]);
-    dfs(ROWS - 1, c, atl, heights[ROWS - 1][c]);
+    dfs(0, c, pac);
+    dfs(ROWS - 1, c, atl);
   }
   for (let r = 0; r < ROWS; r++) {
-    dfs(r, 0, pac, heights[r][0]);
-    dfs(r, COLS - 1, atl, heights[r][COLS - 1]);
+    dfs(r, 0, pac);
+    dfs(r, COLS - 1, atl);
   }
 
   const res = [];
