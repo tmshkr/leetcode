@@ -21,8 +21,8 @@ class Solution:
             for _ in range(len(q)):
                 r, c = q.popleft()
 
-                for dx, dy in directions:
-                    nr, nc = r + dx, c + dy
+                for dr, dc in directions:
+                    nr, nc = r + dr, c + dc
                     if (
                         nr in range(ROWS)
                         and nc in range(COLS)

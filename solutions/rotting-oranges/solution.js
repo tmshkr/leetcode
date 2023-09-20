@@ -27,9 +27,9 @@ var orangesRotting = function (grid) {
   while (fresh > 0 && q.length > 0) {
     const newQ = [];
     for (const [r, c] of q) {
-      for (const [dx, dy] of directions) {
-        const nr = r + dx;
-        const nc = c + dy;
+      for (const [dr, dc] of directions) {
+        const nr = r + dr;
+        const nc = c + dc;
         if (
           nr >= 0 &&
           nr < ROWS &&
