@@ -19,7 +19,7 @@ public class Solution
       }
     }
 
-    edges.Sort((x, y) => x.distance.CompareTo(y.distance)); // Sort edges by distance
+    edges.Sort((a, b) => a.distance.CompareTo(b.distance)); // Sort edges by distance
 
     // Initialize Union-Find data structure
     int[] parent = new int[n];
