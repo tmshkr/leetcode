@@ -2,38 +2,47 @@ public class Solution
 {
   public IList<string> FindItinerary(IList<IList<string>> tickets)
   {
-    var map = new Dictionary<string, List<string>>();
+    Dictionary<string, List<string>> graph = new Dictionary<string, List<string>>();
+
+    // Populate the graph
     foreach (var ticket in tickets)
     {
-      if (!map.TryGetValue(ticket[0], out var adj))
+      string from = ticket[0];
+      string to = ticket[1];
+
+      if (!graph.ContainsKey(from))
       {
-        adj = new List<string>();
-        map.Add(ticket[0], adj);
+        graph[from] = new List<string>();
       }
-      adj.Add(ticket[1]);
+
+      graph[from].Add(to);
     }
 
-    foreach (var adj in map.Values)
+    // Sort destinations in lexicographical order
+    foreach (var kvp in graph)
     {
-      adj.Sort(Comparer<string>.Create((a, b) => string.Compare(b, a)));
+      kvp.Value.Sort();
     }
 
-    var res = new Stack<string>();
-    void dfs(string from)
+    List<string> result = new List<string>();
+
+    void DFS(string node)
     {
-      if (map.TryGetValue(from, out var adj))
+      if (graph.ContainsKey(node))
       {
-        while (adj.Count > 0)
+        List<string> destinations = graph[node];
+        while (destinations.Any())
         {
-          var next = adj.Last();
-          adj.RemoveAt(adj.Count - 1);
-          dfs(next);
+          string nextNode = destinations[0];
+          destinations.RemoveAt(0);
+          DFS(nextNode);
         }
       }
-      res.Push(from);
+      result.Insert(0, node); // Insert at the beginning to reverse the order
     }
 
-    dfs("JFK");
-    return res.ToList();
+    DFS("JFK");
+
+    return result;
   }
 }
