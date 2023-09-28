@@ -7,12 +7,11 @@
 var networkDelayTime = function (times, n, k) {
   const graph = {};
   const distances = {};
-  const visited = {};
+  const visited = new Set();
 
   for (let i = 1; i <= n; i++) {
     graph[i] = [];
     distances[i] = Infinity;
-    visited[i] = false;
   }
 
   for (let i = 0; i < times.length; i++) {
@@ -27,7 +26,7 @@ var networkDelayTime = function (times, n, k) {
     let minNode = null;
 
     for (let i = 1; i <= n; i++) {
-      if (!visited[i] && distances[i] < minDistance) {
+      if (!visited.has(i) && distances[i] < minDistance) {
         minDistance = distances[i];
         minNode = i;
       }
@@ -35,7 +34,7 @@ var networkDelayTime = function (times, n, k) {
 
     if (minNode === null) break;
 
-    visited[minNode] = true;
+    visited.add(minNode);
 
     const edges = graph[minNode];
 
@@ -45,12 +44,7 @@ var networkDelayTime = function (times, n, k) {
     }
   }
 
-  let maxDistance = 0;
-
-  for (let i = 1; i <= n; i++) {
-    maxDistance = Math.max(maxDistance, distances[i]);
-  }
-
+  const maxDistance = Math.max(...Object.values(distances));
   return maxDistance === Infinity ? -1 : maxDistance;
 };
 
