@@ -4,16 +4,17 @@
  */
 var minCostClimbingStairs = function (cost) {
   const n = cost.length;
-  const minCost = Array(n + 1).fill(0);
+  let minCost = 0;
+  let prevMin = 0;
 
   for (let i = 2; i <= n; i++) {
-    minCost[i] = Math.min(
-      minCost[i - 1] + cost[i - 1],
-      minCost[i - 2] + cost[i - 2]
-    );
+    [minCost, prevMin] = [
+      Math.min(minCost + cost[i - 1], prevMin + cost[i - 2]),
+      minCost,
+    ];
   }
 
-  return minCost[n];
+  return minCost;
 };
 
 module.exports = { minCostClimbingStairs };
