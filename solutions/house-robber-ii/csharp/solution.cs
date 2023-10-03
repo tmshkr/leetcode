@@ -6,19 +6,17 @@ public class Solution
     {
       return nums[0];
     }
-    var a = new ArraySegment<int>(nums, 0, nums.Length - 1);
-    var b = new ArraySegment<int>(nums, 1, nums.Length - 1);
-    return Math.Max(getMax(a), getMax(b));
+    return Math.Max(getMax(nums, 0, nums.Length - 1), getMax(nums, 1, nums.Length));
   }
 
-  private int getMax(ArraySegment<int> nums)
+  private int getMax(int[] nums, int start, int end)
   {
     int prevMax = 0;
     int maxSum = 0;
 
-    foreach (var money in nums)
+    for (int i = start; i < end; i++)
     {
-      var temp = Math.Max(money + prevMax, maxSum);
+      var temp = Math.Max(nums[i] + prevMax, maxSum);
       prevMax = maxSum;
       maxSum = temp;
     }
