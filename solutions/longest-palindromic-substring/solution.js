@@ -3,31 +3,26 @@
  * @return {string}
  */
 var longestPalindrome = function (s) {
-  let longest = "";
-  let current = "";
+  const longest = { start: 0, length: 0 };
 
   const expand = (left, right) => {
-    let palindrome = "";
     while (left >= 0 && right < s.length && s[left] === s[right]) {
-      palindrome = s.substring(left, right + 1);
+      const length = right - left + 1;
+      if (length > longest.length) {
+        longest.start = left;
+        longest.length = length;
+      }
       left--;
       right++;
     }
-    return palindrome;
   };
 
   for (let i = 0; i < s.length; i++) {
-    current = expand(i, i);
-    if (current.length > longest.length) {
-      longest = current;
-    }
-    current = expand(i, i + 1);
-    if (current.length > longest.length) {
-      longest = current;
-    }
+    expand(i, i);
+    expand(i, i + 1);
   }
 
-  return longest;
+  return s.slice(longest.start, longest.start + longest.length);
 };
 
 module.exports = { longestPalindrome };

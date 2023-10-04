@@ -2,35 +2,29 @@ public class Solution
 {
   public string LongestPalindrome(string s)
   {
-    var longest = "";
-    var current = "";
+    int[] longest = new int[2]; // [start, length]
 
-    string expand(int l, int r)
+    void expand(int l, int r)
     {
-      var palindrome = "";
       while (l >= 0 && r < s.Length && s[l] == s[r])
       {
-        palindrome = s.Substring(l, r - l + 1);
+        int length = r - l + 1;
+        if (length > longest[1])
+        {
+          longest[0] = l;
+          longest[1] = length;
+        }
         l--;
         r++;
       }
-      return palindrome;
     }
 
     for (var i = 0; i < s.Length; i++)
     {
-      current = expand(i, i);
-      if (current.Length > longest.Length)
-      {
-        longest = current;
-      }
-      current = expand(i, i + 1);
-      if (current.Length > longest.Length)
-      {
-        longest = current;
-      }
+      expand(i, i);
+      expand(i, i + 1);
     }
 
-    return longest;
+    return s.Substring(longest[0], longest[1]);
   }
 }

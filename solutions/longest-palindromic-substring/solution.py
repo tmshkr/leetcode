@@ -1,26 +1,21 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
-        longest = ""
-        current = ""
+        longest = [0, 0]  # [start, length]
 
         def expand(l, r):
-            palindrome = ""
             while l >= 0 and r < len(s) and s[l] == s[r]:
-                palindrome = s[l:r + 1]
+                length = r - l + 1
+                if (length > longest[1]):
+                    longest[0] = l
+                    longest[1] = length
                 l -= 1
                 r += 1
-            return palindrome
 
         for i in range(len(s)):
-            current = expand(i, i)
-            if len(current) > len(longest):
-                longest = current
+            expand(i, i)
+            expand(i, i + 1)
 
-            current = expand(i, i + 1)
-            if len(current) > len(longest):
-                longest = current
-
-        return longest
+        return s[longest[0]:longest[0] + longest[1]]
 
 
 # https://leetcode.com/problems/longest-palindromic-substring/
