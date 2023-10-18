@@ -12,6 +12,6 @@
   "dependencies": {
     "datastructures-js": "^13.0.0",
     "graphql-request": "^4.2.0",
-    "yargs": "^17.5.0"
+    "yargs": "^17.7.2"
   }
 }
