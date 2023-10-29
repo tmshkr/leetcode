@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "cli": "node cli.js"
+    "cli": "ts-node cli.ts"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +13,9 @@
     "datastructures-js": "^13.0.0",
     "graphql-request": "^4.2.0",
     "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
   }
 }

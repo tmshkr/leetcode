@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const problems = require("./problems.json");
 
-async function getProblem(argv) {
+export async function getProblem(argv) {
   let { titleSlug, number } = argv;
   if (Number(number)) {
     titleSlug = problems[number];
@@ -58,7 +58,7 @@ function createFiles(data, folder) {
     return acc;
   }, {});
 
-  const exampleTestcases = [];
+  const exampleTestcases: any = [];
   data.question.exampleTestcases.split("\n").reduce((acc, cur, i) => {
     acc.push(cur);
     if ((i + 1) % metaData.params.length === 0) {
@@ -146,5 +146,3 @@ function createPythonFiles(
     `import unittest\nfrom solution import Solution\n\ns = Solution()\n\n\nclass TestSolution(unittest.TestCase):\n${unitTests}\nif __name__ == "__main__":\n\tunittest.main()`
   );
 }
-
-module.exports = { getProblem };

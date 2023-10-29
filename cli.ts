@@ -1,5 +1,5 @@
 const yargs = require("yargs");
-const { getProblem } = require("./src/getProblem");
+import { getProblem } from "./src/getProblem";
 const { updateProblemList } = require("./src/updateProblemList");
 
 yargs
