@@ -1,0 +1,13 @@
+const { hammingWeight } = require("./solution.js");
+
+test(`00000000000000000000000000001011`, () => {
+  expect(hammingWeight(0b00000000000000000000000000001011)).toEqual(3);
+});
+
+test(`00000000000000000000000010000000`, () => {
+  expect(hammingWeight(0b00000000000000000000000010000000)).toEqual(1);
+});
+
+test(`11111111111111111111111111111101`, () => {
+  expect(hammingWeight(0b11111111111111111111111111111101)).toEqual(31);
+});
