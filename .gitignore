@@ -134,3 +134,5 @@ bin
 obj
 TestResults
 .vscode
+lib
+.DS_Store
