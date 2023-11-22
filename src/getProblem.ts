@@ -111,13 +111,13 @@ function createJavaScriptFiles(
   );
 
   fs.appendFileSync(
-    path.join(folder, "test.js"),
+    path.join(folder, "solution.test.js"),
     `const { ${functionName} } = require("./solution.js");\n\n`
   );
 
   exampleTestcases.forEach((test, i) => {
     fs.appendFileSync(
-      path.join(folder, "test.js"),
+      path.join(folder, "solution.test.js"),
       `test(\`${test}\`, () => {\n  expect(${functionName}(${test})).toEqual(${exampleTestOutputs[i]});\n});\n\n`
     );
   });
@@ -144,7 +144,7 @@ function createPythonFiles(
   }, "");
 
   fs.appendFileSync(
-    path.join(folder, "test.py"),
+    path.join(folder, "solution.test.py"),
     `import unittest\nfrom solution import Solution\n\ns = Solution()\n\n\nclass TestSolution(unittest.TestCase):\n${unitTests}\nif __name__ == "__main__":\n\tunittest.main()`
   );
 }
