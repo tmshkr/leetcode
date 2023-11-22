@@ -129,8 +129,10 @@ const { ${functionName} } = require("./solution.js");
 ${exampleTestcases.reduce((acc, cur, i) => {
   acc += `
 test(\`${cur}\`, () => {
-  // inputs = ${cur}
-  // expected = ${exampleTestOutputs[i]}
+  const inputs = ${cur};
+  const expected = ${exampleTestOutputs[i]};
+  const actual = ${functionName}(inputs);
+  expect(actual).toBe(expected);
 });
 `;
   return acc;
@@ -152,6 +154,7 @@ function createPythonFiles({
   console.log(`creating python files`);
   const solutionContent = `
 ${codeSnippets.python3}
+      pass
   
 # https://leetcode.com/problems/${data.question.titleSlug}/
 `;
@@ -166,9 +169,10 @@ ${exampleTestcases.reduce((acc, cur, i) => {
   acc += `
     def test_${i}(self):
         s = Solution()
-        # inputs = ${cur}
-        # expected = ${exampleTestOutputs[i]}
-        pass
+        inputs = ${cur}
+        expected = ${exampleTestOutputs[i]}
+        actual = s.${functionName}(inputs)
+        self.assertEqual(actual, expected)
         
         `;
   return acc;
