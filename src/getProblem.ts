@@ -1,5 +1,5 @@
+import * as fs from "fs";
 const { request, gql } = require("graphql-request");
-const fs = require("fs");
 const path = require("path");
 const problems = require("./problems.json");
 
@@ -36,20 +36,23 @@ export async function getProblem(argv) {
     variables: { titleSlug },
   });
 
-  const folder = path
-    .join("solutions", `_${data.question.questionId}_${titleSlug}`)
-    .replace(/-/g, "_");
-  createFolder(folder);
-  createFiles(data, folder);
+  const folderName = `_${data.question.questionId}_${titleSlug}`.replace(
+    /-/g,
+    "_"
+  );
+  const folderPath = path.join("solutions", folderName);
+
+  createFolder(folderPath);
+  createFiles(data, folderPath);
 }
 
-function createFolder(folder) {
-  if (fs.existsSync(folder)) {
-    fs.rmSync(folder, { recursive: true, force: true });
-    console.log(`deleted ${folder}`);
+function createFolder(folderPath) {
+  if (fs.existsSync(folderPath)) {
+    fs.rmSync(folderPath, { recursive: true, force: true });
+    console.log(`deleted ${folderPath}`);
   }
-  fs.mkdirSync(folder);
-  console.log(`created ${folder}`);
+  fs.mkdirSync(folderPath);
+  console.log(`created ${folderPath}`);
 }
 
 function createFiles(data, folder) {
@@ -96,55 +99,73 @@ function createFiles(data, folder) {
 
 function createJavaScriptFiles(
   data,
-  folder,
+  folderPath,
   functionName,
   codeSnippets,
   exampleTestcases,
   exampleTestOutputs
 ) {
   console.log(`creating javascript files`);
-  fs.appendFileSync(
-    path.join(folder, "solution.js"),
-    codeSnippets["javascript"] +
-      `\n\nmodule.exports = { ${functionName} };` +
-      `\n\n/*\nhttps://leetcode.com/problems/${data.question.titleSlug}/\n*/\n`
-  );
 
-  fs.appendFileSync(
-    path.join(folder, "solution.test.js"),
-    `const { ${functionName} } = require("./solution.js");\n\n`
-  );
+  const solutionContent = `
+${codeSnippets["javascript"]}
+  
+module.exports = { ${functionName} };
+
+/*
+https://leetcode.com/problems/${data.question.titleSlug}/
+*/
+`;
+
+  let testContent = `const { ${functionName} } = require("./solution.js");\n`;
 
   exampleTestcases.forEach((test, i) => {
-    fs.appendFileSync(
-      path.join(folder, "solution.test.js"),
-      `test(\`${test}\`, () => {\n  expect(${functionName}(${test})).toEqual(${exampleTestOutputs[i]});\n});\n\n`
-    );
+    testContent += `    
+test(\`${test}\`, () => {
+  expect(${functionName}(${test})).toEqual(${exampleTestOutputs[i]});
+});
+`;
   });
+
+  fs.writeFileSync(path.join(folderPath, "solution.js"), solutionContent);
+  fs.writeFileSync(path.join(folderPath, "solution.test.js"), testContent);
 }
 
 function createPythonFiles(
   data,
-  folder,
+  folderPath,
   functionName,
   codeSnippets,
   exampleTestcases,
   exampleTestOutputs
 ) {
   console.log(`creating python files`);
-  fs.appendFileSync(
-    path.join(folder, "solution.py"),
-    codeSnippets["python"] +
-      `\n\n# https://leetcode.com/problems/${data.question.titleSlug}/\n`
-  );
+  const solutionContent = `
+${codeSnippets["python3"]}
+  
+# https://leetcode.com/problems/${data.question.titleSlug}/
+`;
 
-  const unitTests = exampleTestcases.reduce((acc, cur, i) => {
-    acc += `\tdef test_${i}(self):\n\t\tself.assertEqual(s.${functionName}(${cur}), ${exampleTestOutputs[i]})\n\n`;
-    return acc;
-  }, "");
+  const testContent = `
+import unittest
+from solution import Solution
 
-  fs.appendFileSync(
-    path.join(folder, "solution.test.py"),
-    `import unittest\nfrom solution import Solution\n\ns = Solution()\n\n\nclass TestSolution(unittest.TestCase):\n${unitTests}\nif __name__ == "__main__":\n\tunittest.main()`
-  );
+
+class TestSolution(unittest.TestCase):
+${exampleTestcases.reduce((acc, cur, i) => {
+  acc += `
+    def test_${i}(self):
+        s = Solution()
+        self.assertEqual(s.${functionName}(${cur}), ${exampleTestOutputs[i]})
+        
+        `;
+  return acc;
+}, "")}
+
+if __name__ == "__main__":
+  unittest.main()
+`;
+
+  fs.writeFileSync(path.join(folderPath, "solution.py"), solutionContent);
+  fs.writeFileSync(path.join(folderPath, "solution.test.py"), testContent);
 }
