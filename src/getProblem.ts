@@ -43,7 +43,7 @@ export async function getProblem(argv) {
   const folderPath = path.join("solutions", folderName);
 
   createFolder(folderPath);
-  createFiles(data, folderPath);
+  createFiles(data, folderPath, folderName);
 }
 
 function createFolder(folderPath) {
@@ -55,7 +55,7 @@ function createFolder(folderPath) {
   console.log(`created ${folderPath}`);
 }
 
-function createFiles(data, folder) {
+function createFiles(data, folderPath, folderName) {
   const metaData = JSON.parse(data.question.metaData);
   const functionName = metaData.name;
   const codeSnippets = data.question.codeSnippets.reduce((acc, cur) => {
@@ -77,34 +77,81 @@ function createFiles(data, folder) {
     .match(/<strong>Output:<\/strong> .+/g)
     .map((x) => x.replace("<strong>Output:</strong> ", ""));
 
-  createJavaScriptFiles(
+  const args = {
     data,
-    folder,
+    folderPath,
+    folderName,
     functionName,
     codeSnippets,
     exampleTestcases,
-    exampleTestOutputs
-  );
-  createPythonFiles(
-    data,
-    folder,
-    functionName,
-    codeSnippets,
-    exampleTestcases,
-    exampleTestOutputs
-  );
+    exampleTestOutputs,
+  };
+
+  createJavaFiles(args);
+  createJavaScriptFiles(args);
+  createPythonFiles(args);
 
   console.log(`success!`);
 }
 
-function createJavaScriptFiles(
+function createJavaFiles({
+  data,
+  folderPath,
+  folderName,
+  functionName,
+  codeSnippets,
+  exampleTestcases,
+  exampleTestOutputs,
+}) {
+  console.log(`creating java files`);
+
+  const solutionContent = `
+package ${folderName};
+
+${codeSnippets["java"]}
+
+/*
+https://leetcode.com/problems/${data.question.titleSlug}/
+*/
+`;
+
+  const testContent = `
+package ${folderName};
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+class SolutionTest {
+
+  ${exampleTestcases.reduce((acc, cur, i) => {
+    acc += `
+    @Test
+    @DisplayName("${cur}")
+    void ${functionName}${i}() {
+      Solution s = new Solution();
+      // inputs = ${cur}
+      // expected = ${exampleTestOutputs[i]}
+    }
+    `;
+    return acc;
+  }, "")}
+}
+`;
+
+  fs.writeFileSync(path.join(folderPath, "solution.java"), solutionContent);
+  fs.writeFileSync(path.join(folderPath, "solution.test.java"), testContent);
+}
+
+function createJavaScriptFiles({
   data,
   folderPath,
   functionName,
   codeSnippets,
   exampleTestcases,
-  exampleTestOutputs
-) {
+  exampleTestOutputs,
+}) {
   console.log(`creating javascript files`);
 
   const solutionContent = `
@@ -131,14 +178,14 @@ test(\`${test}\`, () => {
   fs.writeFileSync(path.join(folderPath, "solution.test.js"), testContent);
 }
 
-function createPythonFiles(
+function createPythonFiles({
   data,
   folderPath,
   functionName,
   codeSnippets,
   exampleTestcases,
-  exampleTestOutputs
-) {
+  exampleTestOutputs,
+}) {
   console.log(`creating python files`);
   const solutionContent = `
 ${codeSnippets["python3"]}
