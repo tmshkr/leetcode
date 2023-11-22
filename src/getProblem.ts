@@ -36,7 +36,9 @@ export async function getProblem(argv) {
     variables: { titleSlug },
   });
 
-  const folder = path.join("solutions", titleSlug).replace(/-/g, "_");
+  const folder = path
+    .join("solutions", `${data.question.questionId}_${titleSlug}`)
+    .replace(/-/g, "_");
   createFolder(folder);
   createFiles(data, folder);
 }
