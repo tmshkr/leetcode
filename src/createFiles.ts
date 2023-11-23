@@ -171,7 +171,7 @@ ${exampleTestcases.reduce((acc, cur, i) => {
         s = Solution()
         inputs = ${cur}
         expected = ${
-          typeof ["true", "false"].includes(exampleTestOutputs[i])
+          ["true", "false"].includes(exampleTestOutputs[i])
             ? exampleTestOutputs[i][0].toUpperCase() +
               exampleTestOutputs[i].slice(1)
             : exampleTestOutputs[i]
