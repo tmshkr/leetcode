@@ -170,7 +170,12 @@ ${exampleTestcases.reduce((acc, cur, i) => {
     def test_${i}(self):
         s = Solution()
         inputs = ${cur}
-        expected = ${exampleTestOutputs[i]}
+        expected = ${
+          typeof ["true", "false"].includes(exampleTestOutputs[i])
+            ? exampleTestOutputs[i][0].toUpperCase() +
+              exampleTestOutputs[i].slice(1)
+            : exampleTestOutputs[i]
+        }
         actual = s.${functionName}(inputs)
         self.assertEqual(actual, expected)
         
