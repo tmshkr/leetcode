@@ -129,9 +129,9 @@ const { ${functionName} } = require("./solution.js");
 ${exampleTestcases.reduce((acc, cur, i) => {
   acc += `
 test(\`${cur}\`, () => {
-  const inputs = ${cur};
+  const inputs = [${cur}];
   const expected = ${exampleTestOutputs[i]};
-  const actual = ${functionName}(inputs);
+  const actual = ${functionName}(...inputs);
   expect(actual).toBe(expected);
 });
 `;
@@ -169,14 +169,14 @@ ${exampleTestcases.reduce((acc, cur, i) => {
   acc += `
     def test_${i}(self):
         s = Solution()
-        inputs = ${cur}
+        inputs = (${cur})
         expected = ${
           ["true", "false"].includes(exampleTestOutputs[i])
             ? exampleTestOutputs[i][0].toUpperCase() +
               exampleTestOutputs[i].slice(1)
             : exampleTestOutputs[i]
         }
-        actual = s.${functionName}(inputs)
+        actual = s.${functionName}(*inputs)
         self.assertEqual(actual, expected)
         
         `;
