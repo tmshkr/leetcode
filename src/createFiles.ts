@@ -169,7 +169,7 @@ ${exampleTestcases.reduce((acc, cur, i) => {
   acc += `
     def test_${i}(self):
         s = Solution()
-        inputs = (${cur})
+        inputs = [${cur}]
         expected = ${
           ["true", "false"].includes(exampleTestOutputs[i])
             ? exampleTestOutputs[i][0].toUpperCase() +
