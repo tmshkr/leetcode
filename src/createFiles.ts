@@ -45,6 +45,7 @@ export function createFiles(data) {
     codeSnippets,
     exampleTestcases,
     exampleTestOutputs,
+    metaData,
   };
 
   createFolder(folderPath);
@@ -72,6 +73,7 @@ function createJavaFiles({
   codeSnippets,
   exampleTestcases,
   exampleTestOutputs,
+  metaData,
 }) {
   console.log(`creating java files`);
 
@@ -125,6 +127,7 @@ function createJavaScriptFiles({
   codeSnippets,
   exampleTestcases,
   exampleTestOutputs,
+  metaData,
 }) {
   console.log(`creating javascript files`);
 
@@ -169,6 +172,7 @@ function createPythonFiles({
   codeSnippets,
   exampleTestcases,
   exampleTestOutputs,
+  metaData,
 }) {
   console.log(`creating python files`);
   if (Array.isArray(exampleTestOutputs)) {
@@ -186,33 +190,68 @@ ${codeSnippets.python3}
 # https://leetcode.com/problems/${data.question.titleSlug}/
 `;
 
-  const testContent = `
+  let testContent: string;
+  if ("classname" in metaData) {
+    exampleTestOutputs = JSON.parse(exampleTestOutputs);
+    exampleTestOutputs.shift();
+    const [functions, params] = exampleTestcases[0].map((x) => JSON.parse(x));
+    const [constructor, ...methods] = functions;
+    const [constructorParams, ...methodParams] = params;
+    const instance = constructor[0].toLowerCase() + constructor.slice(1);
+    let calls = "";
+    for (let i = 0; i < methods.length; i++) {
+      calls += exampleTestOutputs[i]
+        ? `
+        self.assertEqual(${instance}.${methods[i]}(${methodParams[i]}), ${exampleTestOutputs[i]})
+        `
+        : `
+        ${instance}.${methods[i]}(${methodParams[i]})
+        `;
+    }
+
+    testContent = `
+import unittest
+from solution import ${constructor}
+  
+  
+class TestSolution(unittest.TestCase):
+
+    def test_${constructor}(self):
+        ${instance} = ${constructor}(${constructorParams})
+        ${calls}
+          
+           
+if __name__ == "__main__":
+  unittest.main()
+`;
+  } else {
+    testContent = `
 import unittest
 from solution import Solution
-
-
+  
+  
 class TestSolution(unittest.TestCase):
-${exampleTestcases.reduce((acc, cur, i) => {
-  acc += `
-    def test_${i}(self):
-        s = Solution()
-        inputs = [${cur}]
-        expected = ${
-          Array.isArray(exampleTestOutputs)
-            ? exampleTestOutputs[i]
-            : exampleTestOutputs
-        }
-        actual = s.${functionName}(*inputs)
-        self.assertEqual(actual, expected)
-        
-        `;
-  return acc;
-}, "")}
+  ${exampleTestcases.reduce((acc, cur, i) => {
+    acc += `
+      def test_${i}(self):
+          s = Solution()
+          inputs = [${cur}]
+          expected = ${exampleTestOutputs[i]}
+          actual = s.${functionName}(*inputs)
+          self.assertEqual(actual, expected)
+          
+          `;
+    return acc;
+  }, "")}
 
 if __name__ == "__main__":
   unittest.main()
 `;
+  }
 
   fs.writeFileSync(path.join(folderPath, "solution.py"), solutionContent);
   fs.writeFileSync(path.join(folderPath, "solution.test.py"), testContent);
 }
+
+// TODO: improve param handling
+function handleConstructorParams(metaData) {}
