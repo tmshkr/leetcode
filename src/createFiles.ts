@@ -22,9 +22,20 @@ export function createFiles(data) {
     return acc;
   }, []);
 
-  const exampleTestOutputs = data.question.content
-    .match(/<strong>Output:<\/strong> .+/g)
-    .map((x) => x.replace("<strong>Output:</strong> ", ""));
+  try {
+    if ("classname" in metaData) {
+      var exampleTestOutputs = data.question.content.match(
+        /<strong>Output<\/strong>\n(.*)/
+      )[1];
+    } else {
+      var exampleTestOutputs = data.question.content
+        .match(/<strong>Output:<\/strong> .+/g)
+        .map((x) => x.replace("<strong>Output:</strong> ", ""));
+    }
+  } catch (err) {
+    console.error("There was an error parsing the example test outputs");
+    console.error(err);
+  }
 
   const args = {
     data,
@@ -87,11 +98,15 @@ class SolutionTest {
   ${exampleTestcases.reduce((acc, cur, i) => {
     acc += `
     @Test
-    @DisplayName("${cur}")
+    @DisplayName('${cur}')
     void ${functionName}${i}() {
       Solution s = new Solution();
       // inputs = ${cur}
-      // expected = ${exampleTestOutputs[i]}
+      // expected = ${
+        Array.isArray(exampleTestOutputs)
+          ? exampleTestOutputs[i]
+          : exampleTestOutputs
+      }
     }
     `;
     return acc;
@@ -130,7 +145,11 @@ ${exampleTestcases.reduce((acc, cur, i) => {
   acc += `
 test(\`${cur}\`, () => {
   const inputs = [${cur}];
-  const expected = ${exampleTestOutputs[i]};
+  const expected = ${
+    Array.isArray(exampleTestOutputs)
+      ? exampleTestOutputs[i]
+      : exampleTestOutputs
+  };
   const actual = ${functionName}(...inputs);
   expect(actual).toBe(expected);
 });
@@ -152,6 +171,14 @@ function createPythonFiles({
   exampleTestOutputs,
 }) {
   console.log(`creating python files`);
+  if (Array.isArray(exampleTestOutputs)) {
+    exampleTestOutputs = exampleTestOutputs.map((x) => {
+      return ["true", "false"].includes(x)
+        ? x[0].toUpperCase() + x.slice(1)
+        : x;
+    });
+  }
+
   const solutionContent = `
 ${codeSnippets.python3}
       pass
@@ -171,10 +198,9 @@ ${exampleTestcases.reduce((acc, cur, i) => {
         s = Solution()
         inputs = [${cur}]
         expected = ${
-          ["true", "false"].includes(exampleTestOutputs[i])
-            ? exampleTestOutputs[i][0].toUpperCase() +
-              exampleTestOutputs[i].slice(1)
-            : exampleTestOutputs[i]
+          Array.isArray(exampleTestOutputs)
+            ? exampleTestOutputs[i]
+            : exampleTestOutputs
         }
         actual = s.${functionName}(*inputs)
         self.assertEqual(actual, expected)
