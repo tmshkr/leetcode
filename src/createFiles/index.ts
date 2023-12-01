@@ -9,54 +9,30 @@ export function createFiles(data) {
   const folderName = `_${questionId}_${titleSlug}`.replace(/-/g, "_");
   const folderPath = path.join("solutions", folderName);
   const metaData = JSON.parse(data.question.metaData);
-  const functionName = metaData.name;
-  const codeSnippets = data.question.codeSnippets.reduce((acc, cur) => {
-    acc[cur.langSlug] = cur.code;
-    return acc;
-  }, {});
 
-  let exampleTestcases: any[] = [];
-  let exampleTestOutputs: any[] = [];
+  let params: any = {};
   try {
     if ("classname" in metaData) {
-      exampleTestcases = data.question.exampleTestcases
-        .split("\n")
-        .map((x) => JSON.parse(x));
-      exampleTestOutputs = data.question.content.match(
-        /<strong>Output<\/strong>\n(.*)/
-      )[1];
+      params = handleClassParams(data);
     } else {
-      data.question.exampleTestcases.split("\n").reduce((acc, cur, i) => {
-        acc.push(cur);
-        if ((i + 1) % metaData.params.length === 0) {
-          exampleTestcases.push(acc);
-          acc = [];
-        }
-        return acc;
-      }, []);
-      exampleTestOutputs = data.question.content
-        .match(/<strong>Output:<\/strong> .+/g)
-        .map((x) => x.replace("<strong>Output:</strong> ", ""));
+      params = handleFunctionParams(data, metaData);
     }
   } catch (err) {
     console.error("There was an error parsing the example test outputs");
-    console.error(err);
+    throw err;
   }
 
   const args = {
     data,
-    folderPath,
     folderName,
-    functionName,
-    codeSnippets,
-    exampleTestcases,
-    exampleTestOutputs,
+    folderPath,
     metaData,
+    params,
   };
 
   createFolder(folderPath);
-  createJavaFiles(args);
-  createJavaScriptFiles(args);
+  // createJavaFiles(args);
+  // createJavaScriptFiles(args);
   createPythonFiles(args);
 
   console.log(`success!`);
@@ -69,4 +45,50 @@ function createFolder(folderPath) {
   }
   fs.mkdirSync(folderPath);
   console.log(`created ${folderPath}`);
+}
+
+function handleClassParams(data) {
+  const exampleTestcases: any[] = data.question.exampleTestcases
+    .split("\n")
+    .map((x) => JSON.parse(x));
+  const exampleTestOutputs: any[] = JSON.parse(
+    data.question.content.match(/<strong>Output<\/strong>\n(.*)/)[1]
+  );
+
+  exampleTestOutputs.shift();
+  const [functions, params] = exampleTestcases[0].map((x) => JSON.parse(x));
+  const [constructor, ...methods] = functions;
+  const [constructorParams, ...methodParams] = params;
+  const instance = constructor[0].toLowerCase() + constructor.slice(1);
+
+  return {
+    constructor,
+    constructorParams,
+    exampleTestcases,
+    exampleTestOutputs,
+    instance,
+    methodParams,
+    methods,
+  };
+}
+
+function handleFunctionParams(data, metaData) {
+  const exampleTestcases: any[] = [];
+  data.question.exampleTestcases.split("\n").reduce((acc, cur, i) => {
+    acc.push(cur);
+    if ((i + 1) % metaData.params.length === 0) {
+      exampleTestcases.push(acc);
+      acc = [];
+    }
+    return acc;
+  }, []);
+  const exampleTestOutputs = data.question.content
+    .match(/<strong>Output:<\/strong> .+/g)
+    .map((x) => x.replace("<strong>Output:</strong> ", ""));
+
+  return {
+    exampleTestcases,
+    exampleTestOutputs,
+    functionName: metaData.name,
+  };
 }

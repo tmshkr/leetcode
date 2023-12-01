@@ -1,26 +1,11 @@
 import * as fs from "fs";
 import * as path from "path";
 
-export function createPythonFiles({
-  data,
-  folderPath,
-  functionName,
-  codeSnippets,
-  exampleTestcases,
-  exampleTestOutputs,
-  metaData,
-}) {
+export function createPythonFiles({ data, folderPath, metaData, params }) {
   console.log(`creating python files`);
-  if (Array.isArray(exampleTestOutputs)) {
-    exampleTestOutputs = exampleTestOutputs.map((x) => {
-      return ["true", "false"].includes(x)
-        ? x[0].toUpperCase() + x.slice(1)
-        : x;
-    });
-  }
 
   const solutionContent = `
-${codeSnippets.python3}
+${data.codeSnippets.find((item) => item.langSlug === "python3")}
       pass
   
 # https://leetcode.com/problems/${data.question.titleSlug}/
@@ -28,13 +13,15 @@ ${codeSnippets.python3}
 
   let testContent: string;
   if ("classname" in metaData) {
-    console.log(exampleTestOutputs);
-    exampleTestOutputs = JSON.parse(exampleTestOutputs);
-    exampleTestOutputs.shift();
-    const [functions, params] = exampleTestcases[0].map((x) => JSON.parse(x));
-    const [constructor, ...methods] = functions;
-    const [constructorParams, ...methodParams] = params;
-    const instance = constructor[0].toLowerCase() + constructor.slice(1);
+    const {
+      constructor,
+      constructorParams,
+      exampleTestcases,
+      exampleTestOutputs,
+      instance,
+      methodParams,
+      methods,
+    } = params;
     let calls = "";
     for (let i = 0; i < methods.length; i++) {
       calls += exampleTestOutputs[i]
@@ -62,6 +49,12 @@ if __name__ == "__main__":
   unittest.main()
 `;
   } else {
+    let { exampleTestcases, exampleTestOutputs, functionName } = params;
+    exampleTestOutputs = exampleTestOutputs.map((x) => {
+      return ["true", "false"].includes(x)
+        ? x[0].toUpperCase() + x.slice(1)
+        : x;
+    });
     testContent = `
 import unittest
 from solution import Solution
