@@ -18,7 +18,7 @@ export function createFiles(data) {
 
   createFolder(folderPath);
   // createJavaFiles(args);
-  // createJavaScriptFiles(args);
+  createJavaScriptFiles(args);
   createPythonFiles(args);
   console.log(`success!`);
 }
