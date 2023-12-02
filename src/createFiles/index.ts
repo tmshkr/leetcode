@@ -17,7 +17,7 @@ export function createFiles(data) {
   const args = getArgs({ data, folderName, folderPath, metaData });
 
   createFolder(folderPath);
-  // createJavaFiles(args);
+  createJavaFiles(args);
   createJavaScriptFiles(args);
   createPythonFiles(args);
   console.log(`success!`);

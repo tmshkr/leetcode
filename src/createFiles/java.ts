@@ -1,29 +1,72 @@
 import * as fs from "fs";
 import * as path from "path";
+import { Args } from ".";
 
-export function createJavaFiles({
-  data,
-  folderPath,
-  folderName,
-  functionName,
-  codeSnippets,
-  exampleTestcases,
-  exampleTestOutputs,
-  metaData,
-}) {
+export function createJavaFiles(args: Args) {
+  const {
+    data,
+    folderPath,
+    folderName,
+    metaData,
+    classParams,
+    functionParams,
+  } = args;
+
   console.log(`creating java files`);
 
   const solutionContent = `
 package ${folderName};
-
-${codeSnippets.java}
-
+  
+${data.question.codeSnippets.java}
+  
 /*
 https://leetcode.com/problems/${data.question.titleSlug}/
-*/
-`;
+*/`;
 
-  const testContent = `
+  let testContent: string;
+  if ("classname" in metaData) {
+    if (!classParams) throw new Error("classParams should be defined");
+    const {
+      constructor,
+      constructorParams,
+      exampleTestOutputs,
+      instance,
+      methodParams,
+      methods,
+    } = classParams;
+
+    let calls = "";
+    for (let i = 0; i < methods.length; i++) {
+      calls +=
+        exampleTestOutputs[i] === null
+          ? `
+      ${instance}.${methods[i]}(${methodParams[i]});`
+          : `
+      assertEquals(${instance}.${methods[i]}(${methodParams[i]}), ${exampleTestOutputs[i]});`;
+    }
+
+    testContent = `
+package ${folderName};
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+class SolutionTest {
+  @Test
+    @DisplayName("${constructor}")
+    void ${constructor}Test() {
+      ${constructor} ${instance} = new ${constructor}(${constructorParams});
+      ${calls}
+    }
+}`;
+  } else {
+    if (!functionParams) throw new Error("functionParams should be defined");
+    const { exampleTestcases, exampleTestOutputs, functionName } =
+      functionParams;
+
+    testContent = `
 package ${folderName};
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,21 +79,17 @@ class SolutionTest {
   ${exampleTestcases.reduce((acc, cur, i) => {
     acc += `
     @Test
-    @DisplayName('${cur}')
+    @DisplayName("${cur.replace(/"/g, "'")}")
     void ${functionName}${i}() {
       Solution s = new Solution();
       // inputs = ${cur}
-      // expected = ${
-        Array.isArray(exampleTestOutputs)
-          ? exampleTestOutputs[i]
-          : exampleTestOutputs
-      }
+      // expected = ${exampleTestOutputs[i]}
     }
     `;
     return acc;
   }, "")}
-}
-`;
+}`;
+  }
 
   fs.writeFileSync(path.join(folderPath, "solution.java"), solutionContent);
   fs.writeFileSync(path.join(folderPath, "solution.test.java"), testContent);
