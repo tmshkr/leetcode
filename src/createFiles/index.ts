@@ -12,7 +12,7 @@ export function createFiles(data) {
   data.question.codeSnippets = data.question.codeSnippets.reduce((acc, cur) => {
     acc[cur.langSlug] = cur.code;
     return acc;
-  });
+  }, {});
 
   const args = getArgs({ data, folderName, folderPath, metaData });
 
