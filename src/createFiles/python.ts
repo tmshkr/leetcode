@@ -1,11 +1,13 @@
 import * as fs from "fs";
 import * as path from "path";
+import { Args } from ".";
 
-export function createPythonFiles({ data, folderPath, metaData, params }) {
+export function createPythonFiles(args: Args) {
+  const { data, folderPath, metaData, classParams, functionParams } = args;
+
   console.log(`creating python files`);
-
   const solutionContent = `
-${data.codeSnippets.find((item) => item.langSlug === "python3")}
+${data.codeSnippets.python3}
       pass
   
 # https://leetcode.com/problems/${data.question.titleSlug}/
@@ -13,6 +15,7 @@ ${data.codeSnippets.find((item) => item.langSlug === "python3")}
 
   let testContent: string;
   if ("classname" in metaData) {
+    if (!classParams) throw new Error("classParams should be defined");
     const {
       constructor,
       constructorParams,
@@ -21,7 +24,7 @@ ${data.codeSnippets.find((item) => item.langSlug === "python3")}
       instance,
       methodParams,
       methods,
-    } = params;
+    } = classParams;
     let calls = "";
     for (let i = 0; i < methods.length; i++) {
       calls += exampleTestOutputs[i]
@@ -49,7 +52,8 @@ if __name__ == "__main__":
   unittest.main()
 `;
   } else {
-    let { exampleTestcases, exampleTestOutputs, functionName } = params;
+    if (!functionParams) throw new Error("functionParams should be defined");
+    let { exampleTestcases, exampleTestOutputs, functionName } = functionParams;
     exampleTestOutputs = exampleTestOutputs.map((x) => {
       return ["true", "false"].includes(x)
         ? x[0].toUpperCase() + x.slice(1)

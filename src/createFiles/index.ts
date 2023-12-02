@@ -9,32 +9,17 @@ export function createFiles(data) {
   const folderName = `_${questionId}_${titleSlug}`.replace(/-/g, "_");
   const folderPath = path.join("solutions", folderName);
   const metaData = JSON.parse(data.question.metaData);
+  data.codeSnippets = data.codeSnippets.reduce((acc, cur) => {
+    acc[cur.langSlug] = cur.code;
+    return acc;
+  });
 
-  let params: any = {};
-  try {
-    if ("classname" in metaData) {
-      params = handleClassParams(data);
-    } else {
-      params = handleFunctionParams(data, metaData);
-    }
-  } catch (err) {
-    console.error("There was an error parsing the example test outputs");
-    throw err;
-  }
-
-  const args = {
-    data,
-    folderName,
-    folderPath,
-    metaData,
-    params,
-  };
+  const args = getArgs({ data, folderName, folderPath, metaData });
 
   createFolder(folderPath);
   // createJavaFiles(args);
   // createJavaScriptFiles(args);
   createPythonFiles(args);
-
   console.log(`success!`);
 }
 
@@ -47,7 +32,38 @@ function createFolder(folderPath) {
   console.log(`created ${folderPath}`);
 }
 
-function handleClassParams(data) {
+export type Args = ReturnType<typeof getArgs>;
+function getArgs({
+  data,
+  folderName,
+  folderPath,
+  metaData,
+}: {
+  data: any;
+  folderName: string;
+  folderPath: string;
+  metaData: any;
+}) {
+  try {
+    return {
+      data,
+      folderName,
+      folderPath,
+      metaData,
+      classParams:
+        "classname" in metaData ? handleClassParams(data, metaData) : undefined,
+      functionParams:
+        "classname" in metaData
+          ? undefined
+          : handleFunctionParams(data, metaData),
+    };
+  } catch (err) {
+    console.error("There was an error parsing the question data.");
+    throw err;
+  }
+}
+
+function handleClassParams(data, metaData) {
   const exampleTestcases: any[] = data.question.exampleTestcases
     .split("\n")
     .map((x) => JSON.parse(x));
@@ -73,6 +89,7 @@ function handleClassParams(data) {
 }
 
 function handleFunctionParams(data, metaData) {
+  const functionName: string = metaData.name;
   const exampleTestcases: any[] = [];
   data.question.exampleTestcases.split("\n").reduce((acc, cur, i) => {
     acc.push(cur);
@@ -89,6 +106,6 @@ function handleFunctionParams(data, metaData) {
   return {
     exampleTestcases,
     exampleTestOutputs,
-    functionName: metaData.name,
+    functionName,
   };
 }
