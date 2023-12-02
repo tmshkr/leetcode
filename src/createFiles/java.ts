@@ -79,7 +79,7 @@ class SolutionTest {
   ${exampleTestcases.reduce((acc, cur, i) => {
     acc += `
     @Test
-    @DisplayName("${cur.replace(/"/g, "'")}")
+    @DisplayName("${cur.toString().replace(/"/g, "'")}")
     void ${functionName}${i}() {
       Solution s = new Solution();
       // inputs = ${cur}
