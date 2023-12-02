@@ -9,7 +9,7 @@ export function createFiles(data) {
   const folderName = `_${questionId}_${titleSlug}`.replace(/-/g, "_");
   const folderPath = path.join("solutions", folderName);
   const metaData = JSON.parse(data.question.metaData);
-  data.codeSnippets = data.codeSnippets.reduce((acc, cur) => {
+  data.question.codeSnippets = data.question.codeSnippets.reduce((acc, cur) => {
     acc[cur.langSlug] = cur.code;
     return acc;
   });
@@ -72,10 +72,10 @@ function handleClassParams(data, metaData) {
   );
 
   exampleTestOutputs.shift();
-  const [functions, params] = exampleTestcases[0].map((x) => JSON.parse(x));
+  const [functions, params] = exampleTestcases;
   const [constructor, ...methods] = functions;
   const [constructorParams, ...methodParams] = params;
-  const instance = constructor[0].toLowerCase() + constructor.slice(1);
+  const instance: string = constructor[0].toLowerCase() + constructor.slice(1);
 
   return {
     constructor,

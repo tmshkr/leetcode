@@ -7,8 +7,7 @@ export function createPythonFiles(args: Args) {
 
   console.log(`creating python files`);
   const solutionContent = `
-${data.codeSnippets.python3}
-      pass
+${data.question.codeSnippets.python3}
   
 # https://leetcode.com/problems/${data.question.titleSlug}/
 `;
@@ -19,30 +18,26 @@ ${data.codeSnippets.python3}
     const {
       constructor,
       constructorParams,
-      exampleTestcases,
       exampleTestOutputs,
       instance,
       methodParams,
       methods,
     } = classParams;
+    const testOutputs = exampleTestOutputs.map((x) =>
+      convertPythonReturnValues(x)
+    );
     let calls = "";
     for (let i = 0; i < methods.length; i++) {
-      calls += exampleTestOutputs[i]
-        ? `
-        self.assertEqual(${instance}.${methods[i]}(${methodParams[i]}), ${exampleTestOutputs[i]})
-        `
-        : `
-        ${instance}.${methods[i]}(${methodParams[i]})
-        `;
+      calls += `
+        self.assertEqual(${instance}.${methods[i]}(${methodParams[i]}), ${testOutputs[i]})`;
     }
 
     testContent = `
 import unittest
 from solution import ${constructor}
   
-  
-class TestSolution(unittest.TestCase):
 
+class TestSolution(unittest.TestCase):
     def test_${constructor}(self):
         ${instance} = ${constructor}(${constructorParams})
         ${calls}
@@ -53,12 +48,12 @@ if __name__ == "__main__":
 `;
   } else {
     if (!functionParams) throw new Error("functionParams should be defined");
-    let { exampleTestcases, exampleTestOutputs, functionName } = functionParams;
-    exampleTestOutputs = exampleTestOutputs.map((x) => {
-      return ["true", "false"].includes(x)
-        ? x[0].toUpperCase() + x.slice(1)
-        : x;
-    });
+    const { exampleTestcases, exampleTestOutputs, functionName } =
+      functionParams;
+    const testOutputs = exampleTestOutputs.map((x) =>
+      convertPythonReturnValues(x)
+    );
+
     testContent = `
 import unittest
 from solution import Solution
@@ -70,7 +65,7 @@ class TestSolution(unittest.TestCase):
       def test_${i}(self):
           s = Solution()
           inputs = [${cur}]
-          expected = ${exampleTestOutputs[i]}
+          expected = ${testOutputs[i]}
           actual = s.${functionName}(*inputs)
           self.assertEqual(actual, expected)
           
@@ -85,4 +80,17 @@ if __name__ == "__main__":
 
   fs.writeFileSync(path.join(folderPath, "solution.py"), solutionContent);
   fs.writeFileSync(path.join(folderPath, "solution.test.py"), testContent);
+}
+
+function convertPythonReturnValues(val: any) {
+  switch (val) {
+    case null:
+      return "None";
+    case true:
+      return "True";
+    case false:
+      return "False";
+    default:
+      return val;
+  }
 }
