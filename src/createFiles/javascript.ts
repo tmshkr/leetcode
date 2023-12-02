@@ -70,7 +70,7 @@ test(\`${cur}\`, () => {
       : exampleTestOutputs
   };
   const actual = ${functionName}(...inputs);
-  expect(actual).toBe(expected);
+  expect(actual).toEqual(expected);
 });
 `;
   return acc;
