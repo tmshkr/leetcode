@@ -15,6 +15,7 @@ export async function getProblem(argv) {
     query questionData($titleSlug: String!) {
       question(titleSlug: $titleSlug) {
         questionId
+        questionFrontendId
         title
         titleSlug
         content

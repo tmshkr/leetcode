@@ -5,8 +5,8 @@ import { createJavaScriptFiles } from "./javascript";
 import { createJavaFiles } from "./java";
 
 export function createFiles(data) {
-  const { titleSlug, questionId } = data.question;
-  const folderName = `_${questionId}_${titleSlug}`.replace(/-/g, "_");
+  const { titleSlug, questionFrontendId } = data.question;
+  const folderName = `_${questionFrontendId}_${titleSlug}`.replace(/-/g, "_");
   const folderPath = path.join("solutions", folderName);
   const metaData = JSON.parse(data.question.metaData);
   data.question.codeSnippets = data.question.codeSnippets.reduce((acc, cur) => {
