@@ -101,7 +101,14 @@ function handleFunctionParams(data, metaData) {
   }, []);
   const exampleTestOutputs = data.question.content
     .match(/<strong>Output:<\/strong> .+/g)
-    .map((x) => x.replace("<strong>Output:</strong> ", ""));
+    .map((x) => {
+      const str = x.replace("<strong>Output:</strong> ", "");
+      try {
+        return JSON.parse(str);
+      } catch (err) {
+        return str;
+      }
+    });
 
   return {
     exampleTestcases,
