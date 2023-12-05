@@ -6,80 +6,89 @@ export function createPythonFiles(args: Args) {
   const { data, folderPath, metaData, classParams, functionParams } = args;
 
   console.log(`creating python files`);
-  const solutionContent = `
+
+  fs.writeFileSync(
+    path.join(folderPath, "solution.py"),
+    `
 ${data.question.codeSnippets.python3}
   
 # https://leetcode.com/problems/${data.question.titleSlug}/
-`;
+`
+  );
 
-  let testContent: string;
   if ("classname" in metaData) {
-    if (!classParams) throw new Error("classParams should be defined");
-    const {
-      constructor,
-      constructorParams,
-      exampleTestOutputs,
-      instance,
-      methodParams,
-      methods,
-    } = classParams;
-    const testOutputs = exampleTestOutputs.map((x) =>
-      convertPythonReturnValues(x)
+    fs.writeFileSync(
+      path.join(folderPath, "solution.test.py"),
+      generateClassTests(classParams)
     );
-    let calls = "";
-    for (let i = 0; i < methods.length; i++) {
-      calls += `
-        self.assertEqual(${instance}.${methods[i]}(${methodParams[i]}), ${testOutputs[i]})`;
-    }
-
-    testContent = `
-import unittest
-from solution import ${constructor}
-  
-
-class TestSolution(unittest.TestCase):
-    def test_${constructor}(self):
-        ${instance} = ${constructor}(${constructorParams})
-        ${calls}
-          
-           
-if __name__ == "__main__":
-  unittest.main()
-`;
   } else {
-    if (!functionParams) throw new Error("functionParams should be defined");
-    const { exampleTestcases, exampleTestOutputs, functionName } =
-      functionParams;
-    const testOutputs = exampleTestOutputs.map((x) =>
-      convertPythonReturnValues(x)
+    fs.writeFileSync(
+      path.join(folderPath, "solution.test.py"),
+      generateFunctionTests(functionParams)
     );
+  }
+}
 
-    testContent = `
-import unittest
-from solution import Solution
-  
-  
-class TestSolution(unittest.TestCase):
-  ${exampleTestcases.reduce((acc, cur, i) => {
-    acc += `
-      def test_${i}(self):
-          s = Solution()
-          inputs = [${cur}]
-          expected = ${testOutputs[i]}
-          actual = s.${functionName}(*inputs)
-          self.assertEqual(actual, expected)
-          
-          `;
-    return acc;
-  }, "")}
-
-if __name__ == "__main__":
-  unittest.main()
-`;
+function generateClassTests(classParams) {
+  if (!classParams) throw new Error("classParams should be defined");
+  const {
+    constructor,
+    constructorParams,
+    exampleTestOutputs,
+    instance,
+    methodParams,
+    methods,
+  } = classParams;
+  let calls = "";
+  for (let i = 0; i < methods.length; i++) {
+    calls += `
+      self.assertEqual(${instance}.${methods[i]}(${
+      methodParams[i]
+    }), ${convertPythonReturnValues(exampleTestOutputs[i])})`;
   }
 
-  fs.writeFileSync(path.join(folderPath, "solution.py"), solutionContent);
-  fs.writeFileSync(path.join(folderPath, "solution.test.py"), testContent);
+  return `
+import unittest
+from solution import ${constructor}
+
+
+class TestSolution(unittest.TestCase):
+  def test_${constructor}(self):
+      ${instance} = ${constructor}(${constructorParams})
+      ${calls}
+        
+         
+if __name__ == "__main__":
+  unittest.main()
+`;
+}
+
+function generateFunctionTests(functionParams) {
+  if (!functionParams) throw new Error("functionParams should be defined");
+  const { exampleTestcases, exampleTestOutputs, functionName } = functionParams;
+
+  return `
+import unittest
+from solution import Solution
+
+
+class TestSolution(unittest.TestCase):
+${exampleTestcases.reduce((acc, cur, i) => {
+  acc += `
+    def test_${i}(self):
+        s = Solution()
+        inputs = [${cur}]
+        expected = ${convertPythonReturnValues(exampleTestOutputs[i])}
+        actual = s.${functionName}(*inputs)
+        self.assertEqual(actual, expected)
+        
+        `;
+  return acc;
+}, "")}
+
+if __name__ == "__main__":
+  unittest.main()
+`;
 }
 
 function convertPythonReturnValues(val: any) {

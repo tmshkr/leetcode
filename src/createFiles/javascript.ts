@@ -49,7 +49,7 @@ function generateClassTests(classParams) {
       ? `
   expect(${instance}.${methods[i]}(${methodParams[i]})).toEqual(${exampleTestOutputs[i]});`
       : `
-  ${instance}.${methods[i]}(${methodParams[i]})`;
+  ${instance}.${methods[i]}(${methodParams[i]});`;
   }
 
   return `
