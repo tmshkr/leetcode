@@ -73,11 +73,7 @@ ${exampleTestcases.reduce((acc, cur, i) => {
   acc += `
 test(\`${cur}\`, () => {
 const inputs = [${cur}];
-const expected = ${
-    Array.isArray(exampleTestOutputs)
-      ? exampleTestOutputs[i]
-      : exampleTestOutputs
-  };
+const expected = ${exampleTestOutputs[i]};
 const actual = ${functionName}(...inputs);
 expect(actual).toEqual(expected);
 });
