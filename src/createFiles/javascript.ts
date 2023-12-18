@@ -9,14 +9,14 @@ export function createJavaScriptFiles(args: Args) {
   fs.writeFileSync(
     path.join(folderPath, "solution.js"),
     `
-  ${data.question.codeSnippets.javascript}
+${data.question.codeSnippets.javascript}
+
+module.exports = { ${metaData.name || metaData.classname} };
   
-  module.exports = { ${metaData.name || metaData.classname} };
-    
-  /*
-  https://leetcode.com/problems/${data.question.titleSlug}/
-  */
-  `
+/*
+https://leetcode.com/problems/${data.question.titleSlug}/
+*/
+`
   );
 
   if ("classname" in metaData) {

@@ -16,13 +16,13 @@ export function createJavaFiles(args: Args) {
   fs.writeFileSync(
     path.join(folderPath, "solution.java"),
     `
-  package ${folderName};
-    
-  ${data.question.codeSnippets.java}
-    
-  /*
-  https://leetcode.com/problems/${data.question.titleSlug}/
-  */`
+package ${folderName};
+  
+${data.question.codeSnippets.java}
+  
+/*
+https://leetcode.com/problems/${data.question.titleSlug}/
+*/`
   );
 
   if ("classname" in metaData) {
