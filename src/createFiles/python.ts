@@ -78,9 +78,7 @@ ${exampleTestcases.reduce((acc, cur, i) => {
     def test_${i}(self):
         s = Solution()
         inputs = [${cur}]
-        expected = ${JSON.stringify(
-          convertPythonReturnValues(exampleTestOutputs[i])
-        )}
+        expected = ${convertPythonReturnValues(exampleTestOutputs[i])}
         actual = s.${functionName}(*inputs)
         self.assertEqual(actual, expected)
         
