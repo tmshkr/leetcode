@@ -100,6 +100,6 @@ function convertPythonReturnValues(val: any) {
     case false:
       return "False";
     default:
-      return val;
+      return JSON.stringify(val);
   }
 }
