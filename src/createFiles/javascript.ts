@@ -45,10 +45,11 @@ function generateClassTests(classParams) {
 
   let calls = "";
   for (let i = 0; i < methods.length; i++) {
-    calls += exampleTestOutputs[i]
-      ? `
+    calls +=
+      exampleTestOutputs[i] !== null
+        ? `
   expect(${instance}.${methods[i]}(${methodParams[i]})).toEqual(${exampleTestOutputs[i]});`
-      : `
+        : `
   ${instance}.${methods[i]}(${methodParams[i]});`;
   }
 
