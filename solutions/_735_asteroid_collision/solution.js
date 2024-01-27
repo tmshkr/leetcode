@@ -7,7 +7,7 @@ var asteroidCollision = function (asteroids) {
   for (let a of asteroids) {
     let top = s[s.length - 1];
     while (a < 0 && top > 0) {
-      const sum = a + s[s.length - 1];
+      const sum = a + top;
       if (sum > 0) {
         // a explodes
         a = 0;
