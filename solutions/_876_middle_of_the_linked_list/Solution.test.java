@@ -1,7 +1,7 @@
 
 package _876_middle_of_the_linked_list;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,21 +37,24 @@ class SolutionTest {
     return arr;
   }
 
-
   @Test
   @DisplayName("[1,2,3,4,5]")
   void middleNode0() {
     Solution s = new Solution();
-    // inputs = [1,2,3,4,5]
-    // expected = 3,4,5
+    ListNode head = createList(new int[] { 1, 2, 3, 4, 5 });
+    ListNode actual = s.middleNode(head);
+    int[] expected = new int[] { 3, 4, 5 };
+    assertArrayEquals(expected, listToArray(actual));
   }
-  
+
   @Test
   @DisplayName("[1,2,3,4,5,6]")
   void middleNode1() {
     Solution s = new Solution();
-    // inputs = [1,2,3,4,5,6]
-    // expected = 4,5,6
+    ListNode head = createList(new int[] { 1, 2, 3, 4, 5, 6 });
+    ListNode actual = s.middleNode(head);
+    int[] expected = new int[] { 4, 5, 6 };
+    assertArrayEquals(expected, listToArray(actual));
   }
-  
+
 }
