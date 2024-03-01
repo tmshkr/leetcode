@@ -48,16 +48,18 @@ function generateClassTests(classParams) {
     calls +=
       exampleTestOutputs[i] !== null
         ? `
-  expect(${instance}.${methods[i]}(${methodParams[i]})).toEqual(${exampleTestOutputs[i]});`
+  expect(${instance}.${methods[i]}(${JSON.stringify(
+            methodParams[i]
+          )})).toEqual(${JSON.stringify(exampleTestOutputs[i])});`
         : `
-  ${instance}.${methods[i]}(${methodParams[i]});`;
+  ${instance}.${methods[i]}(${JSON.stringify(methodParams[i])});`;
   }
 
   return `
 const { ${constructor} } = require("./solution.js");
 
 test(\`${constructor}\`, () => {
-const ${instance} = new ${constructor}(${constructorParams});
+const ${instance} = new ${constructor}(${JSON.stringify(constructorParams)});
 ${calls}
 });
 `;

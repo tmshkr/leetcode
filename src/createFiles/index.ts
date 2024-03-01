@@ -68,7 +68,9 @@ function handleClassParams(data, metaData) {
     .split("\n")
     .map((x) => JSON.parse(x));
   const exampleTestOutputs: any[] = JSON.parse(
-    data.question.content.match(/<strong>Output<\/strong>\n(.*)/)[1]
+    data.question.content
+      .match(/<[strong|b]>Output.?<\/[strong|b]>\n(.*)/)[1]
+      .replaceAll("&quot;", '"')
   );
 
   exampleTestOutputs.shift();

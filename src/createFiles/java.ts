@@ -54,9 +54,11 @@ function generateClassTests(classParams, folderName) {
     calls +=
       exampleTestOutputs[i] === null
         ? `
-    ${instance}.${methods[i]}(${methodParams[i]});`
+    ${instance}.${methods[i]}(${JSON.stringify(methodParams[i])});`
         : `
-    assertEquals(${instance}.${methods[i]}(${methodParams[i]}), ${exampleTestOutputs[i]});`;
+    assertEquals(${instance}.${methods[i]}(${JSON.stringify(
+            methodParams[i]
+          )}), ${JSON.stringify(exampleTestOutputs[i])});`;
   }
 
   return `
@@ -71,7 +73,9 @@ class SolutionTest {
 @Test
   @DisplayName("${constructor}")
   void ${constructor}Test() {
-    ${constructor} ${instance} = new ${constructor}(${constructorParams});
+    ${constructor} ${instance} = new ${constructor}(${JSON.stringify(
+    constructorParams
+  )});
     ${calls}
   }
 }`;

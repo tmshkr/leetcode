@@ -42,9 +42,9 @@ function generateClassTests(classParams) {
   let calls = "";
   for (let i = 0; i < methods.length; i++) {
     calls += `
-      self.assertEqual(${instance}.${methods[i]}(${
+      self.assertEqual(${instance}.${methods[i]}(${convertPythonValues(
       methodParams[i]
-    }), ${convertPythonReturnValues(exampleTestOutputs[i])})`;
+    )}), ${convertPythonValues(exampleTestOutputs[i])})`;
   }
 
   return `
@@ -54,7 +54,7 @@ from solution import ${constructor}
 
 class TestSolution(unittest.TestCase):
   def test_${constructor}(self):
-      ${instance} = ${constructor}(${constructorParams})
+      ${instance} = ${constructor}(${convertPythonValues(constructorParams)})
       ${calls}
         
          
@@ -78,7 +78,7 @@ ${exampleTestcases.reduce((acc, cur, i) => {
     def test_${i}(self):
         s = Solution()
         inputs = [${cur}]
-        expected = ${convertPythonReturnValues(exampleTestOutputs[i])}
+        expected = ${convertPythonValues(exampleTestOutputs[i])}
         actual = s.${functionName}(*inputs)
         self.assertEqual(actual, expected)
         
@@ -91,7 +91,7 @@ if __name__ == "__main__":
 `;
 }
 
-function convertPythonReturnValues(val: any) {
+function convertPythonValues(val: any) {
   switch (val) {
     case null:
       return "None";
