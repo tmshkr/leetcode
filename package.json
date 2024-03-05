@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "cli": "ts-node cli.ts",
-    "jest": "jest",
+    "jest": "jest $INIT_CWD/solution.test.js",
     "junit": "./junit.sh"
   },
   "keywords": [],
