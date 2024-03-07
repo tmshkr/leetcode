@@ -3,18 +3,25 @@ import * as path from "path";
 import { Args } from ".";
 
 export function createJavaScriptFiles(args: Args) {
-  const { data, folderPath, metaData, classParams, functionParams } = args;
+  const {
+    codeSnippets,
+    folderPath,
+    metaData,
+    titleSlug,
+    classParams,
+    functionParams,
+  } = args;
 
   console.log(`creating javascript files`);
   fs.writeFileSync(
     path.join(folderPath, "solution.js"),
     `
-${data.question.codeSnippets.javascript}
+${codeSnippets.javascript}
 
 module.exports = { ${metaData.name || metaData.classname} };
   
 /*
-https://leetcode.com/problems/${data.question.titleSlug}/
+https://leetcode.com/problems/${titleSlug}/
 */
 `
   );

@@ -24,9 +24,10 @@ export function createFiles({
   const args = getArgs({
     codeSnippets,
     exampleTestcaseList,
-    folderName,
     folderPath,
+    folderName,
     metaData,
+    titleSlug,
     questionContent,
   });
 
@@ -50,25 +51,27 @@ export type Args = ReturnType<typeof getArgs>;
 function getArgs({
   codeSnippets,
   exampleTestcaseList,
-  folderName,
   folderPath,
+  folderName,
   metaData,
+  titleSlug,
   questionContent,
 }: {
   codeSnippets: any;
   exampleTestcaseList: any;
-  folderName: string;
   folderPath: string;
+  folderName: string;
   metaData: any;
+  titleSlug: string;
   questionContent: string;
 }) {
   try {
     return {
       codeSnippets,
-      exampleTestcaseList,
-      folderName,
       folderPath,
+      folderName,
       metaData,
+      titleSlug,
       classParams:
         "classname" in metaData
           ? handleClassParams({ exampleTestcaseList, questionContent })
@@ -119,15 +122,7 @@ function handleFunctionParams({
   questionContent,
 }) {
   const functionName: string = metaData.name;
-  const exampleTestcases: any[] = [];
-  exampleTestcaseList.reduce((acc, cur, i) => {
-    acc.push(cur);
-    if ((i + 1) % metaData.params.length === 0) {
-      exampleTestcases.push(acc);
-      acc = [];
-    }
-    return acc;
-  }, []);
+  const exampleTestcases = exampleTestcaseList;
   const exampleTestOutputs = questionContent
     .match(/<strong>Output:<\/strong> .+/g)
     .map((x) => {

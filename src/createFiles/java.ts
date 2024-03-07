@@ -4,10 +4,11 @@ import { Args } from ".";
 
 export function createJavaFiles(args: Args) {
   const {
-    data,
+    codeSnippets,
     folderPath,
     folderName,
     metaData,
+    titleSlug,
     classParams,
     functionParams,
   } = args;
@@ -18,10 +19,10 @@ export function createJavaFiles(args: Args) {
     `
 package ${folderName};
   
-${data.question.codeSnippets.java}
+${codeSnippets.java}
   
 /*
-https://leetcode.com/problems/${data.question.titleSlug}/
+https://leetcode.com/problems/${titleSlug}/
 */`
   );
 

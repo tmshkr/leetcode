@@ -3,16 +3,23 @@ import * as path from "path";
 import { Args } from ".";
 
 export function createPythonFiles(args: Args) {
-  const { data, folderPath, metaData, classParams, functionParams } = args;
+  const {
+    codeSnippets,
+    folderPath,
+    metaData,
+    titleSlug,
+    classParams,
+    functionParams,
+  } = args;
 
   console.log(`creating python files`);
 
   fs.writeFileSync(
     path.join(folderPath, "solution.py"),
     `
-${data.question.codeSnippets.python3}
+${codeSnippets.python3}
   
-# https://leetcode.com/problems/${data.question.titleSlug}/
+# https://leetcode.com/problems/${titleSlug}/
 `
   );
 
