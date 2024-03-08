@@ -55,18 +55,16 @@ function generateClassTests(classParams) {
     calls +=
       exampleTestOutputs[i] !== null
         ? `
-  expect(${instance}.${methods[i]}(${JSON.stringify(
-            methodParams[i]
-          )})).toEqual(${JSON.stringify(exampleTestOutputs[i])});`
+  expect(${instance}.${methods[i]}(${methodParams[i]})).toEqual(${exampleTestOutputs[i]});`
         : `
-  ${instance}.${methods[i]}(${JSON.stringify(methodParams[i])});`;
+  ${instance}.${methods[i]}(${methodParams[i]});`;
   }
 
   return `
 const { ${constructor} } = require("./solution.js");
 
 test(\`${constructor}\`, () => {
-const ${instance} = new ${constructor}(${JSON.stringify(constructorParams)});
+const ${instance} = new ${constructor}(${constructorParams});
 ${calls}
 });
 `;
@@ -74,12 +72,13 @@ ${calls}
 
 function generateFunctionTests(functionParams) {
   if (!functionParams) throw new Error("functionParams should be defined");
-  const { exampleTestcases, exampleTestOutputs, functionName } = functionParams;
+  const { exampleTestInputs, exampleTestOutputs, functionName } =
+    functionParams;
 
   return `
 const { ${functionName} } = require("./solution.js");
 
-${exampleTestcases.reduce((acc, cur, i) => {
+${exampleTestInputs.reduce((acc, cur, i) => {
   acc += `
 test(\`${cur}\`, () => {
   const inputs = [${cur}];

@@ -50,8 +50,9 @@ function generateClassTests(classParams) {
   for (let i = 0; i < methods.length; i++) {
     calls += `
       self.assertEqual(${instance}.${methods[i]}(${convertPythonValues(
-      methodParams[i]
-    )}), ${convertPythonValues(exampleTestOutputs[i])})`;
+      methodParams[i],
+      false
+    )}), ${convertPythonValues(exampleTestOutputs[i], false)})`;
   }
 
   return `
@@ -61,7 +62,10 @@ from solution import ${constructor}
 
 class TestSolution(unittest.TestCase):
   def test_${constructor}(self):
-      ${instance} = ${constructor}(${convertPythonValues(constructorParams)})
+      ${instance} = ${constructor}(${convertPythonValues(
+    constructorParams,
+    false
+  )})
       ${calls}
         
          
@@ -72,7 +76,8 @@ if __name__ == "__main__":
 
 function generateFunctionTests(functionParams) {
   if (!functionParams) throw new Error("functionParams should be defined");
-  const { exampleTestcases, exampleTestOutputs, functionName } = functionParams;
+  const { exampleTestInputs, exampleTestOutputs, functionName } =
+    functionParams;
 
   return `
 import unittest
@@ -80,7 +85,7 @@ from solution import Solution
 
 
 class TestSolution(unittest.TestCase):
-${exampleTestcases.reduce((acc, cur, i) => {
+${exampleTestInputs.reduce((acc, cur, i) => {
   acc += `
     def test_${i}(self):
         s = Solution()
@@ -98,7 +103,7 @@ if __name__ == "__main__":
 `;
 }
 
-function convertPythonValues(val: any) {
+function convertPythonValues(val: any, stringify = true) {
   switch (val) {
     case null:
       return "None";
@@ -107,6 +112,6 @@ function convertPythonValues(val: any) {
     case false:
       return "False";
     default:
-      return JSON.stringify(val);
+      return stringify ? JSON.stringify(val) : val;
   }
 }

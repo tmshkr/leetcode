@@ -55,11 +55,9 @@ function generateClassTests(classParams, folderName) {
     calls +=
       exampleTestOutputs[i] === null
         ? `
-    ${instance}.${methods[i]}(${JSON.stringify(methodParams[i])});`
+    ${instance}.${methods[i]}(${methodParams[i]});`
         : `
-    assertEquals(${instance}.${methods[i]}(${JSON.stringify(
-            methodParams[i]
-          )}), ${JSON.stringify(exampleTestOutputs[i])});`;
+    assertEquals(${instance}.${methods[i]}(${methodParams[i]}), ${exampleTestOutputs[i]});`;
   }
 
   return `
@@ -74,9 +72,7 @@ class SolutionTest {
 @Test
   @DisplayName("${constructor}")
   void ${constructor}Test() {
-    ${constructor} ${instance} = new ${constructor}(${JSON.stringify(
-    constructorParams
-  )});
+    ${constructor} ${instance} = new ${constructor}(${constructorParams});
     ${calls}
   }
 }`;
@@ -84,7 +80,8 @@ class SolutionTest {
 
 function generateFunctionTests(functionParams, folderName) {
   if (!functionParams) throw new Error("functionParams should be defined");
-  const { exampleTestcases, exampleTestOutputs, functionName } = functionParams;
+  const { exampleTestInputs, exampleTestOutputs, functionName } =
+    functionParams;
 
   return `
 package ${folderName};
@@ -96,7 +93,7 @@ import org.junit.jupiter.api.Test;
 
 class SolutionTest {
 
-${exampleTestcases.reduce((acc, cur, i) => {
+${exampleTestInputs.reduce((acc, cur, i) => {
   acc += `
   @Test
   @DisplayName("${cur.toString().replace(/"/g, "'")}")

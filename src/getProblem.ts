@@ -1,6 +1,5 @@
-import { createFiles } from "./createFiles";
-
 import puppeteer from "puppeteer";
+import { createFiles } from "./createFiles";
 const problems = require("./problems.json");
 
 export async function getProblem(argv) {
@@ -37,9 +36,7 @@ export async function getProblem(argv) {
           response.json().then(({ data }) => {
             res.questionFrontendId = data.question.questionFrontendId;
             res.metaData = JSON.parse(data.question.metaData);
-            res.exampleTestcaseList = data.question.exampleTestcaseList.map(
-              (eg) => eg.split("\n")
-            );
+            res.exampleTestcaseList = data.question.exampleTestcaseList;
           });
           break;
         case "questionContent":

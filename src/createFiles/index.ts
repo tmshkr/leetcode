@@ -13,7 +13,7 @@ export function createFiles({
   questionFrontendId,
 }: {
   codeSnippets: any;
-  exampleTestcaseList: any;
+  exampleTestcaseList: string[];
   metaData: any;
   titleSlug: string;
   questionContent: string;
@@ -58,7 +58,7 @@ function getArgs({
   questionContent,
 }: {
   codeSnippets: any;
-  exampleTestcaseList: any;
+  exampleTestcaseList: string[];
   folderPath: string;
   folderName: string;
   metaData: any;
@@ -81,8 +81,8 @@ function getArgs({
           ? undefined
           : handleFunctionParams({
               exampleTestcaseList,
-              metaData,
               questionContent,
+              metaData,
             }),
     };
   } catch (err) {
@@ -92,15 +92,19 @@ function getArgs({
 }
 
 function handleClassParams({ exampleTestcaseList, questionContent }) {
-  const exampleTestcases: any[] = exampleTestcaseList.map((x) => JSON.parse(x));
-  const exampleTestOutputs: any[] = JSON.parse(
-    questionContent
-      .match(/<[strong|b]>Output.?<\/[strong|b]>\n(.*)/)[1]
-      .replaceAll("&quot;", '"')
+  const exampleTestInputs = exampleTestcaseList[0].split("\n").map((x) => {
+    try {
+      return JSON.parse(x);
+    } catch (err) {
+      console.log(err);
+      return x;
+    }
+  });
+  const exampleTestOutputs = JSON.parse(
+    questionContent.match(/Output.*\n(.*)/)[1]
   );
-
   exampleTestOutputs.shift();
-  const [functions, params] = exampleTestcases;
+  const [functions, params] = exampleTestInputs;
   const [constructor, ...methods] = functions;
   const [constructorParams, ...methodParams] = params;
   const instance: string = constructor[0].toLowerCase() + constructor.slice(1);
@@ -108,7 +112,7 @@ function handleClassParams({ exampleTestcaseList, questionContent }) {
   return {
     constructor,
     constructorParams,
-    exampleTestcases,
+    exampleTestInputs,
     exampleTestOutputs,
     instance,
     methodParams,
@@ -118,11 +122,11 @@ function handleClassParams({ exampleTestcaseList, questionContent }) {
 
 function handleFunctionParams({
   exampleTestcaseList,
-  metaData,
   questionContent,
+  metaData,
 }) {
   const functionName: string = metaData.name;
-  const exampleTestcases = exampleTestcaseList;
+  const exampleTestInputs = exampleTestcaseList.map((eg) => eg.split("\n"));
   const exampleTestOutputs = questionContent
     .match(/<strong>Output:<\/strong> .+/g)
     .map((x) => {
@@ -135,7 +139,7 @@ function handleFunctionParams({
     });
 
   return {
-    exampleTestcases,
+    exampleTestInputs,
     exampleTestOutputs,
     functionName,
   };
