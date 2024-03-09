@@ -16,8 +16,6 @@ export async function getProblem(argv) {
     (await browser.userAgent()).replace("HeadlessChrome", "Chrome")
   );
 
-  await page.setViewport({ width: 1080, height: 1024 });
-
   const res = {
     codeSnippets: {},
     exampleTestcaseList: [],
