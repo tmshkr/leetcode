@@ -6,7 +6,7 @@
   "scripts": {
     "cli": "ts-node cli.ts",
     "jest": "jest $INIT_CWD/solution.test.js",
-    "junit": "./junit.sh"
+    "junit": "./junit.sh $INIT_CWD"
   },
   "keywords": [],
   "author": "",
