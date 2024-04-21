@@ -19,9 +19,9 @@ echo "Deleting $(pwd)/target"
 rm -rf target
 
 # Compile Java classes with JUnit 5
-sources=$(find -L $1 -name "*.java")
+test_helpers=$(find $1/../test_helpers -name "*.java")
 echo "Compiling..."
-javac -d target -cp lib/junit-platform-console-standalone-1.10.1.jar $sources
+javac -d target -cp lib/junit-platform-console-standalone-1.10.1.jar $1/*.java $test_helpers
 
 # Run the tests
 java -jar lib/junit-platform-console-standalone-1.10.1.jar execute -cp target --scan-classpath
