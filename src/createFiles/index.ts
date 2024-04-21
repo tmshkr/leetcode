@@ -44,6 +44,10 @@ function createFolder(folderPath) {
     console.log(`deleted ${folderPath}`);
   }
   fs.mkdirSync(folderPath);
+  fs.symlinkSync(
+    path.resolve(folderPath, "../test_helpers/"),
+    path.resolve(folderPath, "test_helpers")
+  );
   console.log(`created ${folderPath}`);
 }
 
