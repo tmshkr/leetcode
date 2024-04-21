@@ -1,6 +1,6 @@
 import unittest
 from solution import Solution
-from __test_helpers__.binary_tree import create_binary_tree
+from test_helpers.binary_tree import create_binary_tree
 
 
 class TestSolution(unittest.TestCase):

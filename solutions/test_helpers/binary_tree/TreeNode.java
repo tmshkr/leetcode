@@ -1,4 +1,4 @@
-package __test_helpers__.binary_tree;
+package test_helpers.binary_tree;
 
 public class TreeNode {
     public int val;

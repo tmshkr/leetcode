@@ -1,6 +1,6 @@
 package _951_flip_equivalent_binary_trees;
 
-import __test_helpers__.binary_tree.TreeNode;
+import test_helpers.binary_tree.TreeNode;
 
 class Solution {
     public boolean flipEquiv(TreeNode a, TreeNode b) {

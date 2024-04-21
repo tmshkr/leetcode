@@ -2,7 +2,7 @@
 package _951_flip_equivalent_binary_trees;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import __test_helpers__.binary_tree.*;
+import test_helpers.binary_tree.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
