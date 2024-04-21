@@ -1,4 +1,4 @@
-const { createBinaryTree } = require("./test_helpers/binary-tree");
+const { createBinaryTree } = require("../test_helpers/binary-tree");
 const { flipEquiv } = require("./solution.js");
 
 test(`[1,2,3,4,5,6,null,null,null,7,8],[1,3,2,null,6,4,5,null,null,null,null,8,7]`, () => {

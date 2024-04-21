@@ -1,5 +1,5 @@
 const { rob } = require("./solution.js");
-const { createBinaryTree } = require("./test_helpers/binary-tree");
+const { createBinaryTree } = require("../test_helpers/binary-tree");
 
 test(`[3,2,3,null,3,null,1]`, () => {
   const inputs = [[3, 2, 3, null, 3, null, 1]];
