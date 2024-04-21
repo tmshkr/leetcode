@@ -3,6 +3,7 @@ import * as path from "path";
 import { createPythonFiles } from "./python";
 import { createJavaScriptFiles } from "./javascript";
 import { createJavaFiles } from "./java";
+import { globSync } from "glob";
 
 export function createFiles({
   codeSnippets,
@@ -44,10 +45,17 @@ function createFolder(folderPath) {
     console.log(`deleted ${folderPath}`);
   }
   fs.mkdirSync(folderPath);
-  fs.symlinkSync(
-    path.resolve(folderPath, "../test_helpers/"),
-    path.resolve(folderPath, "test_helpers")
+  console.log("symlinking python test helpers");
+  fs.mkdirSync(path.resolve(folderPath, "test_helpers"));
+  globSync("*.py", { cwd: path.resolve("solutions/test_helpers") }).forEach(
+    (file) => {
+      fs.symlinkSync(
+        path.resolve("solutions/test_helpers", file),
+        path.resolve(folderPath, "test_helpers", file)
+      );
+    }
   );
+
   console.log(`created ${folderPath}`);
 }
 
