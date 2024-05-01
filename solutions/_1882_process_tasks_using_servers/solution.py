@@ -9,19 +9,20 @@ class Solution:
         heapify(available)
         res = []
         time = 0
-        for j, task in enumerate(tasks):
+        j = 0
+        while j < len(tasks):
             time = max(time, j)
             while busy and busy[0][0] <= time:
                 _, weight, idx = heappop(busy)
                 heappush(available, (weight, idx))
-            if not available:
+            if available:
+                weight, idx = heappop(available)
+                res.append(idx)
+                heappush(busy, (time + tasks[j], weight, idx))
+                j += 1
+            else:
                 time = busy[0][0]
-                while busy and busy[0][0] <= time:
-                    _, weight, idx = heappop(busy)
-                    heappush(available, (weight, idx))
-            weight, idx = heappop(available)
-            res.append(idx)
-            heappush(busy, (time + task, weight, idx))
+
         return res
 
 

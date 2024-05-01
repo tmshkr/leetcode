@@ -21,7 +21,8 @@ var assignTasks = function (servers, tasks) {
   }
 
   let time = 0;
-  for (let j = 0; j < tasks.length; j++) {
+  let j = 0;
+  while (j < tasks.length) {
     time = Math.max(time, j);
     while (!busy.isEmpty() && busy.front()[0] <= time) {
       const [_, weight, idx] = busy.dequeue();
@@ -30,11 +31,11 @@ var assignTasks = function (servers, tasks) {
 
     if (available.isEmpty()) {
       time = busy.front()[0];
-      j--;
     } else {
       const [weight, idx] = available.dequeue();
       busy.enqueue([time + tasks[j], weight, idx]);
       res.push(idx);
+      j++;
     }
   }
 

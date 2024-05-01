@@ -24,7 +24,8 @@ class Solution {
         }
 
         int time = 0;
-        for (int j = 0; j < tasks.length; j++) {
+        int j = 0;
+        while (j < tasks.length) {
             time = Math.max(time, j);
             while (!busy.isEmpty() && busy.peek()[0] <= time) {
                 int[] server = busy.poll();
@@ -34,13 +35,13 @@ class Solution {
             }
             if (available.isEmpty()) {
                 time = busy.peek()[0];
-                j--;
             } else {
                 int[] server = available.poll();
                 int weight = server[0];
                 int idx = server[1];
                 res[j] = server[1];
                 busy.add(new int[] { time + tasks[j], weight, idx });
+                j++;
             }
         }
         return res;
