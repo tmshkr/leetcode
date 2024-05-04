@@ -45,17 +45,6 @@ function createFolder(folderPath) {
     console.log(`deleted ${folderPath}`);
   }
   fs.mkdirSync(folderPath);
-  console.log("symlinking python test helpers");
-  fs.mkdirSync(path.resolve(folderPath, "test_helpers"));
-  globSync("*.py", { cwd: path.resolve("solutions/test_helpers") }).forEach(
-    (file) => {
-      fs.symlinkSync(
-        path.resolve("solutions/test_helpers", file),
-        path.resolve(folderPath, "test_helpers", file)
-      );
-    }
-  );
-
   console.log(`created ${folderPath}`);
 }
 
