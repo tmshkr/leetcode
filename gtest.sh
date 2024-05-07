@@ -2,9 +2,6 @@
 
 # Compiles and runs Google Test on a specified directory of C++ files.
 
-# To run against the current directory:
-# npm run gtest $(pwd)
-
 # Navigate to the specified directory
 cd $1
 
