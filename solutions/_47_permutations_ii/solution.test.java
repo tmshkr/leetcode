@@ -2,6 +2,7 @@
 package _47_permutations_ii;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import java.util.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ class SolutionTest {
 
     assertEquals(expected.size(), actual.size());
     for (int i = 0; i < expected.size(); i++) {
-      assertEquals(new HashSet<>(expected.get(i)), new HashSet<>(actual.get(i)));
+      assertArrayEquals(expected.get(i).toArray(), actual.get(i).toArray());
     }
 
   }
@@ -44,8 +45,7 @@ class SolutionTest {
 
     assertEquals(expected.size(), actual.size());
     for (int i = 0; i < expected.size(); i++) {
-      assertEquals(new HashSet<>(expected.get(i)), new HashSet<>(actual.get(i)));
+      assertArrayEquals(expected.get(i).toArray(), actual.get(i).toArray());
     }
   }
-
 }
