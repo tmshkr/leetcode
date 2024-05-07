@@ -8,6 +8,10 @@
 # Navigate to the specified directory
 cd $1
 
+# Remove the existing build directory
+echo "Removing $1/build"
+rm -rf build
+
 # Create a new build directory
 echo "Creating $1/build"
 cmake -S . -B build
@@ -18,5 +22,5 @@ cmake --build build
 
 # Run the tests
 echo "Running $1/build/test"
-cd build && ctest
+cd build && ctest --rerun-failed --output-on-failure
 
