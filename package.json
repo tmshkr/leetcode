@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "cli": "ts-node cli.ts",
+    "gtest": "./gtest.sh $INIT_CWD",
     "jest": "jest $INIT_CWD/solution.test.js",
     "junit": "./junit.sh $INIT_CWD"
   },
