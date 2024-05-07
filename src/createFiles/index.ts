@@ -1,9 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
+import { createCppFiles } from "./cpp";
 import { createPythonFiles } from "./python";
 import { createJavaScriptFiles } from "./javascript";
 import { createJavaFiles } from "./java";
-import { globSync } from "glob";
 
 export function createFiles({
   codeSnippets,
@@ -33,6 +33,7 @@ export function createFiles({
   });
 
   createFolder(folderPath);
+  createCppFiles(args);
   createJavaFiles(args);
   createJavaScriptFiles(args);
   createPythonFiles(args);
