@@ -1,1 +1,1 @@
-/Users/tmshkr/dev/leetcode/CMakeLists.txt
+../../CMakeLists.txt

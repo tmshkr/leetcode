@@ -14,10 +14,10 @@ export function createCppFiles(args: Args) {
   } = args;
 
   console.log(`symlinking CMakeLists.txt`);
-  fs.symlinkSync(
-    path.resolve("CMakeLists.txt"),
-    path.resolve(folderPath, "CMakeLists.txt")
-  );
+  const rootDir = process.cwd();
+  process.chdir(folderPath);
+  fs.symlinkSync("../../CMakeLists.txt", "CMakeLists.txt");
+  process.chdir(rootDir);
 
   console.log(`creating c++ files`);
   fs.writeFileSync(
