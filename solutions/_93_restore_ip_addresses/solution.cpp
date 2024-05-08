@@ -6,10 +6,11 @@ using namespace std;
 class Solution
 {
 private:
-    string s;
-    vector<string> res;
+    string s;            // input string
+    vector<string> res;  // result
+    vector<string> path; // current path
 
-    void backtrack(int start, vector<string> &path)
+    void backtrack(int start)
     {
         if (path.size() == 4)
         {
@@ -30,7 +31,7 @@ private:
                 if (num >= 0 && num <= 255)
                 {
                     path.push_back(octet);
-                    backtrack(start + i, path);
+                    backtrack(start + i);
                     path.pop_back();
                 }
             }
@@ -41,8 +42,7 @@ public:
     vector<string> restoreIpAddresses(string s)
     {
         this->s = s;
-        vector<string> path;
-        backtrack(0, path);
+        backtrack(0);
         return res;
     }
 };

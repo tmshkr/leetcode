@@ -5,16 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Solution {
-    String s;
-    List<String> res = new ArrayList<>();
+    String s; // input string
+    List<String> res = new ArrayList<>(); // result
+    List<String> path = new ArrayList<>(); // current path
 
     public List<String> restoreIpAddresses(String s) {
         this.s = s;
-        backtrack(0, new ArrayList<>());
+        backtrack(0);
         return res;
     }
 
-    private void backtrack(int start, List<String> path) {
+    private void backtrack(int start) {
         if (path.size() == 4) {
             if (start == s.length()) {
                 res.add(String.join(".", path));
@@ -28,7 +29,7 @@ class Solution {
                 String octet = s.substring(start, start + i);
                 if (Integer.parseInt(octet) <= 255) {
                     path.add(octet);
-                    backtrack(start + i, path);
+                    backtrack(start + i);
                     path.remove(path.size() - 1);
                 }
             }
