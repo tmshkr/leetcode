@@ -17,8 +17,6 @@ TEST(SolutionTest, Test1)
   ASSERT_EQ(res.size(), expected.size());
   for (int i = 0; i < res.size(); i++)
   {
-    sort(res[i].begin(), res[i].end());
-    sort(expected[i].begin(), expected[i].end());
     ASSERT_EQ(res[i], expected[i]);
   }
 }
