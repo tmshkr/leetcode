@@ -4,10 +4,10 @@
  */
 var restoreIpAddresses = function (s) {
   const res = [];
-  backtrack(0, []);
+  backtrack();
   return res;
 
-  function backtrack(start, path) {
+  function backtrack(start = 0, path = []) {
     if (path.length === 4) {
       if (start === s.length) {
         res.push(path.join("."));

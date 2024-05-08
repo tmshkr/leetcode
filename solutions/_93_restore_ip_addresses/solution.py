@@ -3,7 +3,7 @@ from typing import List
 
 class Solution:
     def restoreIpAddresses(self, s: str) -> List[str]:
-        def backtrack(start, path):
+        def backtrack(start=0, path=[]):
             if len(path) == 4:
                 if start == len(s):
                     res.append(".".join(path))
@@ -13,12 +13,14 @@ class Solution:
                     break
                 if i > 1 and s[start] == "0":
                     break
-                octet = int(s[start : start + i])
-                if octet < 256:
-                    backtrack(start + i, path + [s[start : start + i]])
+                octet = s[start : start + i]
+                if int(octet) <= 255:
+                    path.append(octet)
+                    backtrack(start + i, path)
+                    path.pop()
 
         res = []
-        backtrack(0, [])
+        backtrack()
         return res
 
 
