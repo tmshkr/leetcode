@@ -5,15 +5,16 @@
  */
 var mincostTickets = function (days, costs) {
   const dp = new Array(days.at(-1) + 1).fill(0);
-  const set = new Set(days);
-  for (let i = 1; i < dp.length; i++) {
-    if (!set.has(i)) {
-      dp[i] = dp[i - 1];
+  let i = 0;
+  for (let day = 1; day < dp.length; day++) {
+    if (day < days[i]) {
+      dp[day] = dp[day - 1];
     } else {
-      dp[i] = Math.min(
-        dp[i - 1] + costs[0],
-        dp[Math.max(0, i - 7)] + costs[1],
-        dp[Math.max(0, i - 30)] + costs[2]
+      i++;
+      dp[day] = Math.min(
+        dp[day - 1] + costs[0],
+        dp[Math.max(0, day - 7)] + costs[1],
+        dp[Math.max(0, day - 30)] + costs[2]
       );
     }
   }
