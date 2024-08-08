@@ -23,6 +23,9 @@ export function createCppFiles(args: Args) {
   fs.writeFileSync(
     path.join(folderPath, "solution.cpp"),
     `
+#include <algorithm>
+#include <iostream>
+#include <string>
 #include <vector>
 using namespace std;
   
@@ -71,7 +74,9 @@ function generateFunctionTests(functionParams, folderName) {
 #include <gtest/gtest.h>
 #include <iostream>
 #include <vector>
+#include <string>
 #include "solution.cpp"
+using namespace std;
 
 ${exampleTestInputs.reduce((acc, cur, i) => {
   acc += `

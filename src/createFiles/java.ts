@@ -18,7 +18,8 @@ export function createJavaFiles(args: Args) {
     path.join(folderPath, "solution.java"),
     `
 package ${folderName};
-  
+include java.util.*;
+
 ${codeSnippets.java}
   
 /*
