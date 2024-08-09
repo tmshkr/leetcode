@@ -22,9 +22,9 @@ import java.util.*;
 
 ${codeSnippets.java}
   
-/*
-https://leetcode.com/problems/${titleSlug}/
-*/`
+/**
+ * https://leetcode.com/problems/${titleSlug}/
+ */`
   );
 
   if ("classname" in metaData) {
