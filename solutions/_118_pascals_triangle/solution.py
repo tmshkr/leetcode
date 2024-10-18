@@ -1,6 +1,5 @@
 from typing import List
 
-
 class Solution:
     def generate(self, numRows) -> List[List[int]]:
         if numRows < 1:
@@ -15,6 +14,6 @@ class Solution:
             triangle.append(row)
 
         return triangle
-
-
+        
+  
 # https://leetcode.com/problems/pascals-triangle/

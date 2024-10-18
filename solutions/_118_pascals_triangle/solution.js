@@ -3,9 +3,8 @@
  * @return {number[][]}
  */
 var generate = function (numRows) {
-  if (numRows < 1) {
-    return [];
-  }
+  if (numRows === 0) return [];
+
   const triangle = [[1]];
   for (let i = 1; i < numRows; i++) {
     const row = [1];
@@ -15,6 +14,7 @@ var generate = function (numRows) {
     row.push(1);
     triangle.push(row);
   }
+
   return triangle;
 };
 
