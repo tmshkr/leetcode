@@ -13,8 +13,7 @@ class Solution:
             if x != y:
                 heappush(stones, y - x)
 
-        stones.append(0)
-        return abs(stones[0])
+        return abs(stones[0]) if stones else 0
 
 
 # https://leetcode.com/problems/last-stone-weight/
