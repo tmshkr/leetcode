@@ -5,17 +5,15 @@
  */
 var isAnagram = function (s, t) {
   if (s.length !== t.length) return false;
+  const count = Array(26).fill(0);
 
-  const countS = {};
-  const countT = {};
-
-  for (let i = 0; i < s.length; i++) {
-    countS[s[i]] = (countS[s[i]] || 0) + 1;
-    countT[t[i]] = (countT[t[i]] || 0) + 1;
+  for (let i = 0; i < s.length; ++i) {
+    ++count[s.charCodeAt(i) - 97];
+    --count[t.charCodeAt(i) - 97];
   }
 
-  for (let key in countS) {
-    if (countS[key] !== countT[key]) return false;
+  for (let i = 0; i < 26; ++i) {
+    if (count[i] !== 0) return false;
   }
 
   return true;
