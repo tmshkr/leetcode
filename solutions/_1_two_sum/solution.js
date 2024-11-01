@@ -4,13 +4,13 @@
  * @return {number[]}
  */
 var twoSum = function (nums, target) {
-  const hash = {};
-  for (let i = 0; i < nums.length; i++) {
+  const map = new Map();
+  for (let i = 0; i < nums.length; ++i) {
     const complement = target - nums[i];
-    if (complement in hash) {
-      return [hash[complement], i];
+    if (map.has(complement)) {
+      return [map.get(complement), i];
     }
-    hash[nums[i]] = i;
+    map.set(nums[i], i);
   }
 };
 
