@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import { ParsedQuestion } from "../getQuestion";
 import { createCppFiles } from "./cpp";
+import { createGoFiles } from "./go";
 import { createPythonFiles } from "./python";
 import { createJavaScriptFiles } from "./javascript";
 import { createJavaFiles } from "./java";
@@ -9,13 +10,14 @@ export function createFiles(parsedQuestion: ParsedQuestion) {
   createFolder(parsedQuestion.folderPath);
 
   createCppFiles(parsedQuestion);
+  createGoFiles(parsedQuestion);
   createJavaFiles(parsedQuestion);
   createJavaScriptFiles(parsedQuestion);
   createPythonFiles(parsedQuestion);
   console.log(`success!`);
 }
 
-function createFolder(folderPath) {
+export function createFolder(folderPath) {
   if (fs.existsSync(folderPath)) {
     fs.rmSync(folderPath, { recursive: true, force: true });
     console.log(`deleted ${folderPath}`);
