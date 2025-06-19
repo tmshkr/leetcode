@@ -3,14 +3,15 @@
  * @return {boolean}
  */
 var containsDuplicate = function (nums) {
-  const set = new Set();
-  for (const num of nums) {
-    if (set.has(num)) {
-      return true;
+    const seen = new Set();
+    for (const num of nums) {
+        if (seen.has(num)) {
+            return true;
+        }
+
+        seen.add(num);
     }
-    set.add(num);
-  }
-  return false;
+    return false;
 };
 
 module.exports = { containsDuplicate };

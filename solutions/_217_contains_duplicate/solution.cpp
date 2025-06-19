@@ -1,4 +1,4 @@
-#include <iostream>
+#include <algorithm>
 #include <vector>
 using namespace std;
 
@@ -8,12 +8,14 @@ public:
     bool containsDuplicate(vector<int> &nums)
     {
         sort(nums.begin(), nums.end());
-        size_t n = nums.size();
-        for (size_t i = 0; i < n - 1; ++i)
+        size_t last = nums.size() - 1;
+
+        for (size_t i = 0; i < last; ++i)
         {
             if (nums[i] == nums[i + 1])
                 return true;
         }
+
         return false;
     }
 };

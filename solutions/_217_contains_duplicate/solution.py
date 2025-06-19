@@ -3,11 +3,11 @@ from typing import List
 
 class Solution:
     def containsDuplicate(self, nums: List[int]) -> bool:
-        s = set()
+        seen = set()
         for num in nums:
-            if num in s:
+            if num in seen:
                 return True
-            s.add(num)
+            seen.add(num)
         return False
 
 
