@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
-import { Args } from ".";
+import { ParsedQuestion } from "../getQuestion";
 
-export function createJavaFiles(args: Args) {
+export function createJavaFiles(parsedQuestion: ParsedQuestion) {
   const {
     codeSnippets,
     folderPath,
@@ -11,7 +11,7 @@ export function createJavaFiles(args: Args) {
     titleSlug,
     classParams,
     functionParams,
-  } = args;
+  } = parsedQuestion;
 
   console.log(`creating java files`);
   fs.writeFileSync(
@@ -20,7 +20,7 @@ export function createJavaFiles(args: Args) {
 package ${folderName};
 import java.util.*;
 
-${codeSnippets.java}
+${codeSnippets.java.code}
   
 /**
  * https://leetcode.com/problems/${titleSlug}/
@@ -95,7 +95,7 @@ import org.junit.jupiter.api.Test;
 class SolutionTest {
 
 ${exampleTestInputs.reduce((acc, cur, i) => {
-  acc += `
+    acc += `
   @Test
   @DisplayName("${cur.toString().replace(/"/g, "'")}")
   void ${functionName}${i}() {
@@ -104,7 +104,7 @@ ${exampleTestInputs.reduce((acc, cur, i) => {
     // expected = ${exampleTestOutputs[i]}
   }
   `;
-  return acc;
-}, "")}
+    return acc;
+  }, "")}
 }`;
 }

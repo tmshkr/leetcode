@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
-import { Args } from ".";
+import { ParsedQuestion } from "../getQuestion";
 
-export function createPythonFiles(args: Args) {
+export function createPythonFiles(parsedQuestion: ParsedQuestion) {
   const {
     codeSnippets,
     folderPath,
@@ -10,14 +10,14 @@ export function createPythonFiles(args: Args) {
     titleSlug,
     classParams,
     functionParams,
-  } = args;
+  } = parsedQuestion;
 
   console.log(`creating python files`);
 
   fs.writeFileSync(
     path.join(folderPath, "solution.py"),
     `
-${codeSnippets.python3}
+${codeSnippets.python3.code}
   
 # https://leetcode.com/problems/${titleSlug}/
 `
@@ -86,7 +86,7 @@ from solution import Solution
 
 class TestSolution(unittest.TestCase):
 ${exampleTestInputs.reduce((acc, cur, i) => {
-  acc += `
+    acc += `
     def test_${i}(self):
         s = Solution()
         inputs = [${cur}]
@@ -95,8 +95,8 @@ ${exampleTestInputs.reduce((acc, cur, i) => {
         self.assertEqual(actual, expected)
         
         `;
-  return acc;
-}, "")}
+    return acc;
+  }, "")}
 
 if __name__ == "__main__":
   unittest.main()

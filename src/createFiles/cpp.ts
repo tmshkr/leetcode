@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
-import { Args } from ".";
+import { ParsedQuestion } from "../getQuestion";
 
-export function createCppFiles(args: Args) {
+export function createCppFiles(parsedQuestion: ParsedQuestion) {
   const {
     codeSnippets,
     folderPath,
@@ -11,7 +11,7 @@ export function createCppFiles(args: Args) {
     titleSlug,
     classParams,
     functionParams,
-  } = args;
+  } = parsedQuestion;
 
   console.log(`symlinking CMakeLists.txt`);
   const rootDir = process.cwd();
@@ -28,9 +28,9 @@ export function createCppFiles(args: Args) {
 #include <string>
 #include <vector>
 using namespace std;
-  
-${codeSnippets.cpp}
-  
+
+${codeSnippets.cpp.code}
+
 /*
 https://leetcode.com/problems/${titleSlug}/
 */`
@@ -79,7 +79,7 @@ function generateFunctionTests(functionParams, folderName) {
 using namespace std;
 
 ${exampleTestInputs.reduce((acc, cur, i) => {
-  acc += `
+    acc += `
 TEST(SolutionTest, Test${i + 1})
 {
   Solution s;
@@ -87,6 +87,6 @@ TEST(SolutionTest, Test${i + 1})
   // expected = ${exampleTestOutputs[i]}
 }
   `;
-  return acc;
-}, "")}`;
+    return acc;
+  }, "")}`;
 }

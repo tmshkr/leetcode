@@ -1,5 +1,5 @@
 const yargs = require("yargs");
-import { getProblem } from "./src/getProblem";
+import { getQuestion } from "./src/getQuestion";
 const { updateProblemList } = require("./src/updateProblemList");
 
 yargs
@@ -18,6 +18,6 @@ yargs
           "the title slug or number of the problem to get, e.g., 'two-sum' or 1",
       });
     },
-    getProblem
+    getQuestion
   )
   .help().argv;

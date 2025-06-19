@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
-import { Args } from ".";
+import { ParsedQuestion } from "../getQuestion";
 
-export function createJavaScriptFiles(args: Args) {
+export function createJavaScriptFiles(parsedQuestion: ParsedQuestion) {
   const {
     codeSnippets,
     folderPath,
@@ -10,13 +10,13 @@ export function createJavaScriptFiles(args: Args) {
     titleSlug,
     classParams,
     functionParams,
-  } = args;
+  } = parsedQuestion;
 
   console.log(`creating javascript files`);
   fs.writeFileSync(
     path.join(folderPath, "solution.js"),
     `
-${codeSnippets.javascript}
+${codeSnippets.javascript.code}
 
 module.exports = { ${metaData.name || metaData.classname} };
   
@@ -79,7 +79,7 @@ function generateFunctionTests(functionParams) {
 const { ${functionName} } = require("./solution.js");
 
 ${exampleTestInputs.reduce((acc, cur, i) => {
-  acc += `
+    acc += `
 test(\`${cur}\`, () => {
   const inputs = [${cur}];
   const expected = ${JSON.stringify(exampleTestOutputs[i])};
@@ -87,7 +87,7 @@ test(\`${cur}\`, () => {
   expect(actual).toEqual(expected);
 });
 `;
-  return acc;
-}, "")}
+    return acc;
+  }, "")}
 `;
 }
