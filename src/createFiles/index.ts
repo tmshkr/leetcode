@@ -2,6 +2,7 @@ import * as fs from "fs";
 import { ParsedQuestion } from "../getQuestion";
 import { createCppFiles } from "./cpp";
 import { createGoFiles } from "./go";
+import { createPhpFiles } from "./php";
 import { createPythonFiles } from "./python";
 import { createJavaScriptFiles } from "./javascript";
 import { createJavaFiles } from "./java";
@@ -13,6 +14,7 @@ export function createFiles(parsedQuestion: ParsedQuestion) {
   createGoFiles(parsedQuestion);
   createJavaFiles(parsedQuestion);
   createJavaScriptFiles(parsedQuestion);
+  createPhpFiles(parsedQuestion);
   createPythonFiles(parsedQuestion);
   console.log(`success!`);
 }
