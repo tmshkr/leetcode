@@ -7,7 +7,8 @@
     "cli": "ts-node cli.ts",
     "gtest": "./gtest.sh $INIT_CWD",
     "jest": "jest $INIT_CWD/solution.test.js",
-    "junit": "./junit.sh $INIT_CWD"
+    "junit": "./junit.sh $INIT_CWD",
+    "phpunit": "vendor/bin/phpunit $INIT_CWD"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +21,7 @@
     "prettier": "^2.8.8",
     "prettier-plugin-java": "^2.4.0",
     "puppeteer": "^22.4.0",
+    "vitest": "^3.2.4",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
