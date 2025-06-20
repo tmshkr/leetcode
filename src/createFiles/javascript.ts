@@ -61,6 +61,7 @@ function generateClassTests(classParams) {
   }
 
   return `
+import { describe, test, expect } from "vitest";
 const { ${constructor} } = require("./solution.js");
 
 test(\`${constructor}\`, () => {
@@ -76,6 +77,7 @@ function generateFunctionTests(functionParams) {
     functionParams;
 
   return `
+import { describe, test, expect } from "vitest";
 const { ${functionName} } = require("./solution.js");
 
 ${exampleTestInputs.reduce((acc, cur, i) => {
