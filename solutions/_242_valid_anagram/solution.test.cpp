@@ -1,4 +1,3 @@
-
 #include <gtest/gtest.h>
 #include <iostream>
 #include <vector>
@@ -9,11 +8,11 @@ using namespace std;
 TEST(SolutionTest, Test1)
 {
   Solution s;
-  EXPECT_EQ(s.isAnagram("anagram", "nagaram"), true);
+  EXPECT_TRUE(s.isAnagram("anagram", "nagaram"));
 }
 
 TEST(SolutionTest, Test2)
 {
   Solution s;
-  EXPECT_EQ(s.isAnagram("rat", "car"), false);
+  EXPECT_FALSE(s.isAnagram("rat", "car"));
 }

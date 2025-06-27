@@ -1,16 +1,18 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        if len(s) != len(t):
+        length_s = len(s)
+        length_t = len(t)
+        if length_s != length_t:
             return False
 
-        count = [0] * 26
+        ctr = [0] * 26
 
-        for c in range(len(s)):
-            count[ord(s[c]) - 97] += 1
-            count[ord(t[c]) - 97] -= 1
+        for i in range(length_s):
+            ctr[ord(s[i]) - 97] += 1
+            ctr[ord(t[i]) - 97] -= 1
 
-        for c in count:
-            if c != 0:
+        for i in range(26):
+            if ctr[i] != 0:
                 return False
 
         return True

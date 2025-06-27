@@ -1,3 +1,4 @@
+
 package _242_valid_anagram;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,13 +12,15 @@ class SolutionTest {
   @DisplayName("'anagram','nagaram'")
   void isAnagram0() {
     Solution s = new Solution();
-    assertEquals(true, s.isAnagram("anagram", "nagaram"));
+    boolean result = s.isAnagram("anagram", "nagaram");
+    assertEquals(true, result);
   }
 
   @Test
   @DisplayName("'rat','car'")
   void isAnagram1() {
     Solution s = new Solution();
-    assertEquals(false, s.isAnagram("rat", "car"));
+    boolean result = s.isAnagram("rat", "car");
+    assertEquals(false, result);
   }
 }
