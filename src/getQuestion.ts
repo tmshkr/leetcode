@@ -38,6 +38,14 @@ export async function getQuestion(argv) {
     await browser.close();
 
     const parsedQuestion = parseQuestion(question);
+    // writeFileSync(
+    //     path.join("question.json"),
+    //     JSON.stringify(question, null, 2)
+    // );
+    // writeFileSync(
+    //     path.join("parsedQuestion.json"),
+    //     JSON.stringify(parsedQuestion, null, 2)
+    // );
     createFiles(parsedQuestion);
 }
 
@@ -116,10 +124,11 @@ function handleClassParams({ exampleTestcaseList, content }) {
 }
 
 function handleFunctionParams({
-    exampleTestcaseList: exampleTestInputs,
+    exampleTestcaseList,
     content,
     metaData,
 }) {
+    const exampleTestInputs: any[] = exampleTestcaseList.map((inputs) => inputs.split("\n"));
     const functionName: string = metaData.name;
     const exampleTestOutputs: any[] = [];
     const matches = content.
