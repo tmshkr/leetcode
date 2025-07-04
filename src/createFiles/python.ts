@@ -50,9 +50,8 @@ function generateClassTests(classParams) {
   for (let i = 0; i < methods.length; i++) {
     calls += `
       self.assertEqual(${instance}.${methods[i]}(${convertPythonValues(
-      methodParams[i],
-      false
-    )}), ${convertPythonValues(exampleTestOutputs[i], false)})`;
+      methodParams[i]
+    )}), ${convertPythonValues(exampleTestOutputs[i])})`;
   }
 
   return `
@@ -63,8 +62,7 @@ from solution import ${constructor}
 class TestSolution(unittest.TestCase):
   def test_${constructor}(self):
       ${instance} = ${constructor}(${convertPythonValues(
-    constructorParams,
-    false
+    constructorParams
   )})
       ${calls}
         
@@ -103,7 +101,7 @@ if __name__ == "__main__":
 `;
 }
 
-function convertPythonValues(val: any, stringify = true) {
+function convertPythonValues(val: any) {
   switch (val) {
     case null:
       return "None";
@@ -112,6 +110,6 @@ function convertPythonValues(val: any, stringify = true) {
     case false:
       return "False";
     default:
-      return stringify ? JSON.stringify(val) : val;
+      return val;
   }
 }

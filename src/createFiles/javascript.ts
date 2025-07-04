@@ -84,7 +84,7 @@ ${exampleTestInputs.reduce((acc, cur, i) => {
     acc += `
 test(\`${cur}\`, () => {
   const inputs = [${cur}];
-  const expected = ${JSON.stringify(exampleTestOutputs[i])};
+  const expected = ${exampleTestOutputs[i]};
   const actual = ${functionName}(...inputs);
   expect(actual).toEqual(expected);
 });

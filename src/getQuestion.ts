@@ -38,14 +38,14 @@ export async function getQuestion(argv) {
     await browser.close();
 
     const parsedQuestion = parseQuestion(question);
-    // writeFileSync(
-    //     path.join("question.json"),
-    //     JSON.stringify(question, null, 2)
-    // );
-    // writeFileSync(
-    //     path.join("parsedQuestion.json"),
-    //     JSON.stringify(parsedQuestion, null, 2)
-    // );
+    writeFileSync(
+        path.join("question.json"),
+        JSON.stringify(question, null, 2)
+    );
+    writeFileSync(
+        path.join("parsedQuestion.json"),
+        JSON.stringify(parsedQuestion, null, 2)
+    );
     createFiles(parsedQuestion);
 }
 
@@ -139,7 +139,7 @@ function handleFunctionParams({
             console.warn("No output found for example test case:", match);
             continue;
         }
-        exampleTestOutputs.push(handleReturnType(metaData, match[1]));
+        exampleTestOutputs.push(match[1].replaceAll(/&quot;/g, '"'));
     }
 
 
@@ -150,23 +150,3 @@ function handleFunctionParams({
     };
 }
 
-function handleReturnType(metaData, value): string | number | boolean | object | any[] {
-    if (!metaData || !metaData.return || !metaData.return.type) {
-        throw new Error("Return type is not defined in metaData");
-    }
-    switch (metaData.return.type) {
-        case "string":
-            return value.toString();
-        case "number":
-            return value;
-        case "boolean":
-            return value === "true" ? true : false;
-        case "array":
-            return `[${value}]`;
-        case "object":
-            return `{${Object.entries(value).map(([k, v]) => `${k}: ${v}`).join(", ")}}`;
-        default:
-            throw new Error(`Unsupported return type: ${metaData.return.type}`);
-    }
-
-}
