@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.tmshkr</groupId>
+  <artifactId>leetcode</artifactId>
+  <version>1.0.0</version>
+
+  <!--
+    This POM exists so that IDEs (the Oracle Java / NetBeans extension in particular)
+    can resolve the JUnit 5 classpath for solutions/**/solution.test.java.
+    Tests are still run by ./junit.sh, which compiles into ./target.
+  -->
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.release>21</maven.compiler.release>
+    <junit.version>5.10.1</junit.version>
+  </properties>
+
+  <dependencies>
+    <!-- compile scope, not test: every solution.test.java lives in the main source dir -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.version}</version>
+    </dependency>
+    <!-- older solutions still static-import org.junit.Assert (JUnit 4);
+         the junit-platform-console-standalone jar bundles it, so match that -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <!-- ./junit.sh does `rm -rf target`, so keep Maven's output out of its way -->
+    <directory>${project.basedir}/mvn-target</directory>
+    <sourceDirectory>${project.basedir}/solutions</sourceDirectory>
+  </build>
+</project>
