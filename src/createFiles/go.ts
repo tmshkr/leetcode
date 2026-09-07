@@ -67,10 +67,10 @@ ${exampleTestInputs.reduce((acc, cur, i) => {
         acc += `
 func Test${i}(t *testing.T) {
     result := ${functionName}(${cur})
-    expected := ${JSON.stringify(exampleTestOutputs[i])}
+    expected := ${exampleTestOutputs[i]}
 
     if result != expected {
-        t.Errorf("${functionName}(${cur}) = %v; want %v", result, expected)
+        t.Errorf(\`${functionName}(${cur}) = %v; want %v\`, result, expected)
     }
 }
 `; return acc;
