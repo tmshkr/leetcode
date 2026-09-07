@@ -142,6 +142,7 @@ TestResults
 lib
 .DS_Store
 target
+mvn-target
 build
 
 vendor
