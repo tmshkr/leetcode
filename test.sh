@@ -39,6 +39,14 @@ if ((${#js_tests[@]})); then
   run_suite JavaScript "$root/node_modules/.bin/vitest" run --globals --root "$root" "${js_tests[@]}"
 fi
 
+ts_tests=(*test.ts)
+if ((${#ts_tests[@]})); then
+  for i in "${!ts_tests[@]}"; do
+    ts_tests[$i]="$solution_dir/${ts_tests[$i]}"
+  done
+  run_suite TypeScript "$root/node_modules/.bin/vitest" run --globals --root "$root" "${ts_tests[@]}"
+fi
+
 py_tests=(*test.py)
 if ((${#py_tests[@]})); then
   run_python() {

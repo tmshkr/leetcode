@@ -8,7 +8,7 @@ import path from "path";
 export type ParsedQuestion = ReturnType<typeof parseQuestion>;
 
 export async function getQuestion(argv) {
-    let { titleSlug, number } = argv;
+    let { titleSlug, number, force } = argv;
     if (Number(number)) {
         titleSlug = problems[number];
     }
@@ -46,10 +46,10 @@ export async function getQuestion(argv) {
         path.join("parsedQuestion.json"),
         JSON.stringify(parsedQuestion, null, 2)
     );
-    createFiles(parsedQuestion);
+    createFiles(parsedQuestion, { force });
 }
 
-function parseQuestion(question: QuestionJson) {
+export function parseQuestion(question: QuestionJson) {
     const { codeSnippets, titleSlug, exampleTestcaseList, content, questionFrontendId } = question;
     const folderName = `_${questionFrontendId}_${titleSlug}`.replace(/-/g, "_");
     const folderPath = path.join("solutions", folderName);
@@ -103,9 +103,11 @@ function handleClassParams({ exampleTestcaseList, content }) {
             return x;
         }
     });
-    const exampleTestOutputs = JSON.parse(
-        content.match(/Output.*\n(.*)/)[1]
-    );
+    const [output] = parseExampleOutputs(content);
+    if (!output) {
+        throw new Error("could not parse the example output from the question content");
+    }
+    const exampleTestOutputs = JSON.parse(output);
     exampleTestOutputs.shift();
     const [functions, params] = exampleTestInputs;
     const [constructor, ...methods] = functions;
@@ -130,18 +132,13 @@ function handleFunctionParams({
 }) {
     const exampleTestInputs: any[] = exampleTestcaseList.map((inputs) => inputs.split("\n"));
     const functionName: string = metaData.name;
-    const exampleTestOutputs: any[] = [];
-    const matches = content.
-        matchAll(/<strong>Output:<\/strong>.*<span class=\"example-io\">(.*)<\/span>/g);
+    const exampleTestOutputs: any[] = parseExampleOutputs(content);
 
-    for (const match of matches) {
-        if (!match[1]) {
-            console.warn("No output found for example test case:", match);
-            continue;
-        }
-        exampleTestOutputs.push(match[1].replaceAll(/&quot;/g, '"'));
+    if (exampleTestOutputs.length !== exampleTestInputs.length) {
+        console.warn(
+            `parsed ${exampleTestOutputs.length} example output(s) for ${exampleTestInputs.length} example input(s)`
+        );
     }
-
 
     return {
         exampleTestInputs,
@@ -150,3 +147,44 @@ function handleFunctionParams({
     };
 }
 
+/**
+ * Pulls the expected output of each example out of the question's HTML, which
+ * comes in two flavors:
+ *
+ *   <p><strong>Output:</strong> <span class="example-io">[0,1]</span></p>
+ *   <pre><strong>Output:</strong> [0,1]
+ *
+ * plus a variant used by class-based questions, where the value sits on the
+ * line below the label:
+ *
+ *   <strong>Output</strong>
+ *   [null,null,-3]
+ */
+function parseExampleOutputs(content: string): string[] {
+    const matches = content.matchAll(
+        /<strong>Output:?<\/strong>\s*(?:<span class="example-io">)?\s*([^\n<]*)/g
+    );
+
+    const outputs = [...matches].map((match) =>
+        decodeHtmlEntities(match[1]).trim()
+    );
+
+    if (!outputs.length) {
+        console.warn("No example outputs found in the question content.");
+    } else if (outputs.some((output) => !output)) {
+        console.warn("Some example outputs could not be parsed:", outputs);
+    }
+
+    return outputs;
+}
+
+function decodeHtmlEntities(text: string): string {
+    return text
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/&apos;/g, "'")
+        .replace(/&nbsp;/g, " ")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&amp;/g, "&");
+}
